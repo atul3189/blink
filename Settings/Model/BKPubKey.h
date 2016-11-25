@@ -30,7 +30,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #import <Foundation/Foundation.h>
-
+@import CloudKit;
 
 @interface SshRsa : NSObject
 
@@ -48,12 +48,22 @@
 @property (readonly) NSString *privateKey;
 @property (readonly) NSString *publicKey;
 
+@property (nonatomic, strong) CKRecordID *iCloudRecordId;
+@property (nonatomic, strong) NSDate *lastModifiedTime;
+@property (nonatomic, strong) NSNumber *iCloudConflictDetected;
+@property (nonatomic, strong) BKPubKey *iCloudConflictCopy;
+
 + (void)initialize;
 + (instancetype)withID:(NSString *)ID;
 + (BOOL)saveIDS;
 + (id)saveCard:(NSString *)ID privateKey:(NSString *)privateKey publicKey:(NSString *)publicKey;
++ (void)updateCard:(NSString*)ID withiCloudId:(CKRecordID*)iCloudId andLastModifiedTime:(NSDate*)lastModifiedTime;
++ (void)markCard:(NSString*)ID forRecord:(CKRecord*)record withConflict:(BOOL)hasConflict;
 + (NSMutableArray *)all;
 + (NSInteger)count;
++ (CKRecord*)recordFromHost:(BKPubKey*)host;
++ (BKPubKey*)hostFromRecord:(CKRecord*)hostRecord;
++ (instancetype)withiCloudId:(CKRecordID *)record;
 
 - (NSString *)publicKey;
 - (NSString *)privateKey;

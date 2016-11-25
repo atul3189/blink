@@ -325,6 +325,32 @@ static int SshEncodeBuffer(unsigned char *pEncoding, int bufferLen, unsigned cha
   return card;
 }
 
++ (void)updateCard:(NSString*)ID withiCloudId:(CKRecordID*)iCloudId andLastModifiedTime:(NSDate*)lastModifiedTime{
+  BKPubKey *bkKey = [BKPubKey withID:ID];
+  if(bkKey){
+    bkKey.iCloudRecordId = iCloudId;
+    bkKey.lastModifiedTime = lastModifiedTime;
+  }
+  [BKPubKey saveIDS];
+}
+
++ (void)markCard:(NSString*)ID forRecord:(CKRecord*)record withConflict:(BOOL)hasConflict{
+  BKPubKey *bkKey = [BKPubKey withID:ID];
+  if(bkKey){
+    if(hasConflict && record != nil){
+      BKPubKey *conflictCopy = [BKPubKey hostFromRecord:record];
+      conflictCopy.iCloudRecordId = record.recordID;
+      conflictCopy.lastModifiedTime = record.modificationDate;
+      bkKey.iCloudConflictCopy = conflictCopy;
+    }
+    if(!hasConflict){
+      bkKey.iCloudConflictCopy = nil;
+    }
+    bkKey.iCloudConflictDetected = [NSNumber numberWithBool:hasConflict];
+  }
+  [BKPubKey saveIDS];
+}
+
 + (NSInteger)count
 {
   return [Identities count];
@@ -382,6 +408,33 @@ static int SshEncodeBuffer(unsigned char *pEncoding, int bufferLen, unsigned cha
     return YES;
   else
     return NO;
+}
+
++ (CKRecord*)recordFromHost:(BKPubKey*)key{
+  CKRecord *hostRecord = nil;
+  if(key.iCloudRecordId){
+    hostRecord = [[CKRecord alloc]initWithRecordType:@"BKPubKey" recordID:key.iCloudRecordId];
+  }else{
+    hostRecord = [[CKRecord alloc]initWithRecordType:@"BKPubKey"];
+  }
+  [hostRecord setValue:key.ID forKey:@"ID"];
+  [hostRecord setValue:key.publicKey forKey:@"publicKey"];
+  [hostRecord setValue:key.privateKey forKey:@"privateKey"];
+  return hostRecord;
+}
+
++ (BKPubKey*)hostFromRecord:(CKRecord*)hostRecord{
+  BKPubKey *key = [[BKPubKey alloc]initWithID:[hostRecord valueForKey:@"ID"] privateKeyRef:[hostRecord valueForKey:@"privateKey"] publicKey:[hostRecord valueForKey:@"publicKey"]];
+  return key;
+}
+
++ (instancetype)withiCloudId:(CKRecordID *)record{
+  for (BKPubKey *key in Identities) {
+    if ([key->_iCloudRecordId isEqual:record]) {
+      return key;
+    }
+  }
+  return nil;
 }
 
 @end
