@@ -338,7 +338,7 @@ static int SshEncodeBuffer(unsigned char *pEncoding, int bufferLen, unsigned cha
   BKPubKey *bkKey = [BKPubKey withID:ID];
   if(bkKey){
     if(hasConflict && record != nil){
-      BKPubKey *conflictCopy = [BKPubKey hostFromRecord:record];
+      BKPubKey *conflictCopy = [BKPubKey keyFromRecord:record];
       conflictCopy.iCloudRecordId = record.recordID;
       conflictCopy.lastModifiedTime = record.modificationDate;
       bkKey.iCloudConflictCopy = conflictCopy;
