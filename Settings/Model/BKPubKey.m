@@ -410,7 +410,7 @@ static int SshEncodeBuffer(unsigned char *pEncoding, int bufferLen, unsigned cha
     return NO;
 }
 
-+ (CKRecord*)recordFromHost:(BKPubKey*)key{
++ (CKRecord*)recordFromKey:(BKPubKey*)key{
   CKRecord *hostRecord = nil;
   if(key.iCloudRecordId){
     hostRecord = [[CKRecord alloc]initWithRecordType:@"BKPubKey" recordID:key.iCloudRecordId];
@@ -423,7 +423,7 @@ static int SshEncodeBuffer(unsigned char *pEncoding, int bufferLen, unsigned cha
   return hostRecord;
 }
 
-+ (BKPubKey*)hostFromRecord:(CKRecord*)hostRecord{
++ (BKPubKey*)keyFromRecord:(CKRecord*)hostRecord{
   BKPubKey *key = [[BKPubKey alloc]initWithID:[hostRecord valueForKey:@"ID"] privateKeyRef:[hostRecord valueForKey:@"privateKey"] publicKey:[hostRecord valueForKey:@"publicKey"]];
   return key;
 }

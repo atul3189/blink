@@ -61,8 +61,8 @@
 + (void)markCard:(NSString*)ID forRecord:(CKRecord*)record withConflict:(BOOL)hasConflict;
 + (NSMutableArray *)all;
 + (NSInteger)count;
-+ (CKRecord*)recordFromHost:(BKPubKey*)host;
-+ (BKPubKey*)hostFromRecord:(CKRecord*)hostRecord;
++ (CKRecord*)recordFromKey:(BKPubKey*)host;
++ (BKPubKey*)keyFromRecord:(CKRecord*)hostRecord;
 + (instancetype)withiCloudId:(CKRecordID *)record;
 
 - (NSString *)publicKey;

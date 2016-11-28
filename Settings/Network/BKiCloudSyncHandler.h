@@ -23,6 +23,7 @@ extern NSString const *BKiCloudZoneName;
 @interface BKiCloudSyncHandler : NSObject
 
 @property (nonatomic, copy) void (^mergeHostCompletionBlock) (void);
+@property (nonatomic, copy) void (^mergeKeysCompletionBlock) (void);
 
 + (id)sharedHandler;
 - (void)checkForReachabilityAndSync:(NSNotification*)notification;

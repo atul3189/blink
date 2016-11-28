@@ -248,20 +248,90 @@ static BKiCloudSyncHandler *sharedHandler = nil;
 
 # pragma mark - Keys Method
 
-- (void)mergeKeys:(NSArray*)keys{
+- (void)createNewKey:(BKPubKey*)key{
+  CKDatabase *database = [[CKContainer containerWithIdentifier:BKiCloudContainerIdentifier]privateCloudDatabase];
+  CKRecord *keyRecord = [BKPubKey recordFromKey:key];
+  [database saveRecord:keyRecord completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
+    [BKPubKey updateCard:key.ID withiCloudId:record.recordID andLastModifiedTime:record.modificationDate];
+  }];
+}
+
+
+- (void)mergeKeys:(NSArray*)keyRecords{
+  for (CKRecord *keyRecord in keyRecords) {
+    if([keyRecord valueForKey:@"ID"]){
+      NSString *ID = [keyRecord valueForKey:@"ID"];
+      BKPubKey *keys = [BKPubKey withiCloudId:keyRecord.recordID];
+      //If keys exists in system, Find which is new
+      if(keys){
+        if([keys.lastModifiedTime compare:keyRecord.modificationDate] == NSOrderedDescending){
+          //Local is new...Update iCloud to Local values
+          CKDatabase *database = [[CKContainer containerWithIdentifier:BKiCloudContainerIdentifier]privateCloudDatabase];
+          CKRecord *udpatedRecord = [BKPubKey recordFromKey:keys];
+          CKModifyRecordsOperation *updateOperation = [[CKModifyRecordsOperation alloc]initWithRecordsToSave:@[udpatedRecord] recordIDsToDelete:nil];
+          updateOperation.savePolicy = CKRecordSaveAllKeys;
+          updateOperation.qualityOfService = NSQualityOfServiceUserInitiated;
+          updateOperation.modifyRecordsCompletionBlock = ^(NSArray<CKRecord *> * _Nullable savedRecords, NSArray<CKRecordID *> * _Nullable deletedRecordIDs, NSError * _Nullable operationError){
+            
+            
+          };
+          [database addOperation:updateOperation];
+        }else{
+          //iCloud is new, update local to reflect iCLoud values
+          [self saveKeyRecord:keyRecord withID:ID];
+        }
+      }else{
+        //If keys is new, see if it exists
+        //Check if name exists, if YES, Mark as conflict else, add to local
+        BKPubKey *existingKey = [BKPubKey withID:ID];
+        if(existingKey){
+          [BKPubKey markCard:ID forRecord:keyRecord withConflict:YES];
+        }else{
+          [self saveKeyRecord:keyRecord withID:ID];
+        }
+      }
+    }
+  }
+  NSMutableArray *itemsDeletedFromiCloud = [NSMutableArray array];
+  //Save all local records to iCloud
+  for (BKPubKey *keys in [BKPubKey all]) {
+    if(keys.iCloudRecordId == nil && (!keys.iCloudConflictDetected || keys.iCloudConflictDetected == [NSNumber numberWithBool:NO])){
+      [self createNewKey:keys];
+    }else{
+      NSLog(@"Conflict detected Hence not saving to iCloud");
+      //Find items deleted from iCloud
+      if((!keys.iCloudConflictDetected || keys.iCloudConflictDetected == [NSNumber numberWithBool:NO])){
+        NSPredicate *deletedPredicate = [NSPredicate predicateWithFormat:@"SELF.recordID.recordName contains %@",keys.iCloudRecordId.recordName];
+        NSArray *filteredAray = [keyRecords filteredArrayUsingPredicate:deletedPredicate];
+        if(filteredAray.count <= 0){
+          [itemsDeletedFromiCloud addObject:keys];
+        }
+      }
+    }
+  }
+  if(itemsDeletedFromiCloud.count > 0){
+    [[BKPubKey all]removeObjectsInArray:itemsDeletedFromiCloud];
+  }
   
+  
+  if(_mergeKeysCompletionBlock != nil){
+    _mergeKeysCompletionBlock();
+  }
+}
+
+- (void)saveKeyRecord:(CKRecord*)keyRecord withID:(NSString*)ID{
+  BKPubKey *updatedKey = [BKPubKey keyFromRecord:keyRecord];
+  BKPubKey *oldKey = [BKPubKey withiCloudId:keyRecord.recordID];
+  if(![updatedKey.ID isEqualToString:oldKey.ID]){
+    [[BKPubKey all]removeObject:oldKey];
+  }  
+  [BKPubKey saveCard:ID privateKey:updatedKey.privateKey publicKey:updatedKey.publicKey];
+  [BKPubKey updateCard:ID withiCloudId:keyRecord.recordID andLastModifiedTime:keyRecord.modificationDate];
 }
 
 - (void)dealloc{
   [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
-//- (void)createNewKey:(BKPubKey*)key{
-//  CKDatabase *database = [[CKContainer containerWithIdentifier:@"iCloud.com.carloscabanero.blinkshell"]privateCloudDatabase];
-//  CKRecord *keyRecord = [BKPubKey recordFromHost:key];
-//  [database saveRecord:hostRecord completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
-//    [BKHosts saveHost:host.host withiCloudId:record.recordID andLastModifiedTime:record.modificationDate];
-//  }];
-//}
 
 @end
