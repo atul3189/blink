@@ -85,6 +85,22 @@ static BKiCloudSyncHandler *sharedHandler = nil;
           //Reset shared handler so that init is called again.
         }
       }];
+      
+      CKQuerySubscription *keySubscripton = [[CKQuerySubscription alloc]initWithRecordType:@"BKPubKey" predicate:predicate options:(CKQuerySubscriptionOptionsFiresOnRecordCreation|CKQuerySubscriptionOptionsFiresOnRecordUpdate|CKQuerySubscriptionOptionsFiresOnRecordDeletion)];
+      if(!keySubscripton){
+        return nil;
+      }
+      CKNotificationInfo *keyInfo = [[CKNotificationInfo alloc]init];
+      keyInfo.alertBody = @"Key update";
+      keySubscripton.notificationInfo = keyInfo;
+      
+      [database saveSubscription:keySubscripton completionHandler:^(CKSubscription * _Nullable subscription, NSError * _Nullable error) {
+        if(error){
+          //Reset shared handler so that init is called again.
+        }
+      }];
+
+      
     }
   }
   return self;

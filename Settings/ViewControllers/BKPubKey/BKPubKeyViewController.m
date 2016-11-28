@@ -35,7 +35,7 @@
 #import "BKPubKeyCreateViewController.h"
 #import "BKPubKeyDetailsViewController.h"
 #import "BKPubKeyViewController.h"
-
+#import "BKiCloudSyncHandler.h"
 
 @interface BKPubKeyViewController ()
 
@@ -50,6 +50,15 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  [[BKiCloudSyncHandler sharedHandler]setMergeKeysCompletionBlock:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
+      [self.tableView reloadData];
+    });
+  }];
+  [[BKiCloudSyncHandler sharedHandler]checkForReachabilityAndSync:nil];
+
+  
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -132,6 +141,10 @@
 {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     // Remove BKPubKey
+    CKRecordID *recordId = [[BKPubKey.all objectAtIndex:indexPath.row]iCloudRecordId];
+    if(recordId != nil){
+      [[BKiCloudSyncHandler sharedHandler]deleteRecord:recordId ofType:BKiCloudRecordTypeHosts];
+    }
     [BKPubKey.all removeObjectAtIndex:indexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:true];
     [BKPubKey saveIDS];
