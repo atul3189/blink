@@ -143,7 +143,7 @@
     // Remove BKPubKey
     CKRecordID *recordId = [[BKPubKey.all objectAtIndex:indexPath.row]iCloudRecordId];
     if(recordId != nil){
-      [[BKiCloudSyncHandler sharedHandler]deleteRecord:recordId ofType:BKiCloudRecordTypeHosts];
+      [[BKiCloudSyncHandler sharedHandler]deleteRecord:recordId ofType:BKiCloudRecordTypeKeys];
     }
     [BKPubKey.all removeObjectAtIndex:indexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:true];

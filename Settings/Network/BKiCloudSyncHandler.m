@@ -341,7 +341,7 @@ static BKiCloudSyncHandler *sharedHandler = nil;
   if(![updatedKey.ID isEqualToString:oldKey.ID]){
     [[BKPubKey all]removeObject:oldKey];
   }  
-  [BKPubKey saveCard:ID privateKey:updatedKey.privateKey publicKey:updatedKey.publicKey];
+  [BKPubKey saveCard:ID privateKey:[keyRecord valueForKey:@"privateKey"] publicKey:[keyRecord valueForKey:@"publicKey"]];
   [BKPubKey updateCard:ID withiCloudId:keyRecord.recordID andLastModifiedTime:keyRecord.modificationDate];
 }
 
