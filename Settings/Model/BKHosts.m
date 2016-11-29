@@ -111,6 +111,7 @@ static UICKeyChainStore *Keychain = nil;
 + (void)initialize
 {
   Keychain = [UICKeyChainStore keyChainStoreWithService:@"sh.blink.pwd"];
+  Keychain.synchronizable = YES;
   [BKHosts loadHosts];
 }
 
