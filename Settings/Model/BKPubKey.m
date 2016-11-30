@@ -39,7 +39,7 @@
 #import "BKPubKey.h"
 #import "UICKeyChainStore/UICKeyChainStore.h"
 
-
+#import <CommonCrypto/CommonDigest.h>
 // typedef enum IDCardType : NSUInteger {
 //   RSA2048,
 //   RSA4096
@@ -436,6 +436,20 @@ static int SshEncodeBuffer(unsigned char *pEncoding, int bufferLen, unsigned cha
     }
   }
   return nil;
+}
+
++ (NSString *)fingerprint:(NSString *)publicKey
+{
+  const char *str = [publicKey UTF8String];
+  unsigned char result[CC_MD5_DIGEST_LENGTH];
+  CC_MD5(str, (CC_LONG)strlen(str), result);
+  
+  NSMutableString *ret = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+  for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+    [ret appendFormat:@"%02x:", result[i]];
+  }
+  [ret deleteCharactersInRange:NSMakeRange([ret length] - 1, 1)];
+  return ret;
 }
 
 @end

@@ -36,6 +36,7 @@
 @interface BKPubKeyDetailsViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *name;
+@property (weak, nonatomic) IBOutlet UITextField *fingerPrint;
 @property (weak, nonatomic) IBOutlet UITextField *comments;
 @end
 
@@ -46,6 +47,7 @@
   [super viewDidLoad];
 
   _name.text = _pubkey.ID;
+  _fingerPrint.text = [BKPubKey fingerprint:_pubkey.publicKey];
   _comments.text = [NSString stringWithFormat:@"%@@%@", [BKDefaults defaultUserName] , [UIDevice getInfoTypeFromDeviceName:BKDeviceInfoTypeDeviceName]];
 }
 
@@ -102,6 +104,65 @@
       _pubkey.ID = _name.text;
       [BKPubKey saveIDS];
     }
+  }
+}
+
+- (BOOL)showConflictSection{
+  return (_pubkey.iCloudConflictDetected.boolValue && _pubkey.iCloudConflictCopy);
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  if (section == 1 && ![self showConflictSection]) {
+    //header height for selected section
+    return 0.1;
+  } else {
+    //keeps all other Headers unaltered
+    return [super tableView:tableView heightForHeaderInSection:section];
+  }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+  if (section == 1 && ![self showConflictSection]) {
+    //header height for selected section
+    return 0.1;
+  } else {
+    // keeps all other footers unaltered
+    return [super tableView:tableView heightForFooterInSection:section];
+  }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  if(section == 0){
+    if (![self showConflictSection]) {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
+  else if (section == 1) { //Index number of interested section
+    if (![self showConflictSection]) {
+      return 0; //number of row in section when you click on hide
+    } else {
+      return 3; //number of row in section when you click on show (if it's higher than rows in Storyboard, app will crash)
+    }
+  } else {
+    return [super tableView:tableView numberOfRowsInSection:section]; //keeps inalterate all other rows
+  }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+  if(section == 1 && ![self showConflictSection]){
+    return @"";
+  }else{
+    return [super tableView:tableView titleForHeaderInSection:section];
+  }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
+  if(section == 1 && ![self showConflictSection]){
+    return @"";
+  }else{
+    return [super tableView:tableView titleForFooterInSection:section];
   }
 }
 

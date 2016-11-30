@@ -64,6 +64,7 @@
 + (CKRecord*)recordFromKey:(BKPubKey*)host;
 + (BKPubKey*)keyFromRecord:(CKRecord*)hostRecord;
 + (instancetype)withiCloudId:(CKRecordID *)record;
++ (NSString *)fingerprint:(NSString *)publicKey;
 
 - (NSString *)publicKey;
 - (NSString *)privateKey;

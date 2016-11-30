@@ -29,8 +29,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#import <CommonCrypto/CommonDigest.h>
-
 #import "BKPubKey.h"
 #import "BKPubKeyCreateViewController.h"
 #import "BKPubKeyDetailsViewController.h"
@@ -98,12 +96,23 @@
     cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     BKPubKey *pk = [BKPubKey.all objectAtIndex:pkIdx];
 
+    if(pk.iCloudConflictDetected == [NSNumber numberWithBool:YES]){
+      if((pk.iCloudConflictDetected.boolValue && pk.iCloudConflictCopy)){
+        cell.textLabel.textColor = [UIColor redColor];
+      }else{
+        cell.textLabel.textColor = [UIColor blackColor];
+        [BKPubKey markCard:pk.ID forRecord:[BKPubKey recordFromKey:pk] withConflict:NO];
+      }
+    }else{
+      cell.textLabel.textColor = [UIColor blackColor];
+    }
+    
     // Configure the cell...
     cell.textLabel.text = pk.ID;
     if ([cell.textLabel.text isEqual:@"id_rsa"]) {
-      cell.detailTextLabel.text = [NSString stringWithFormat:@"Default Key - %@", [self fingerprint:pk.publicKey]];
+      cell.detailTextLabel.text = [NSString stringWithFormat:@"Default Key - %@", [BKPubKey fingerprint:pk.publicKey]];
     } else {
-      cell.detailTextLabel.text = [self fingerprint:pk.publicKey];
+      cell.detailTextLabel.text = [BKPubKey fingerprint:pk.publicKey];
     }
   }
 
@@ -116,20 +125,6 @@
   }
 
   return cell;
-}
-
-- (NSString *)fingerprint:(NSString *)publicKey
-{
-  const char *str = [publicKey UTF8String];
-  unsigned char result[CC_MD5_DIGEST_LENGTH];
-  CC_MD5(str, (CC_LONG)strlen(str), result);
-
-  NSMutableString *ret = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-  for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
-    [ret appendFormat:@"%02x:", result[i]];
-  }
-  [ret deleteCharactersInRange:NSMakeRange([ret length] - 1, 1)];
-  return ret;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
