@@ -32,6 +32,7 @@
 #import "BKPubKeyDetailsViewController.h"
 #import "UIDevice+DeviceName.h"
 #import "BKDefaults.h"
+#import "BKiCloudSyncHandler.h"
 
 @interface BKPubKeyDetailsViewController () <UITextFieldDelegate>
 
@@ -103,6 +104,34 @@
     if (_name.text.length && ![_name.text isEqualToString:_pubkey.ID]) {
       _pubkey.ID = _name.text;
       [BKPubKey saveIDS];
+    }
+  }
+}
+
+# pragma mark - UITableView Delegates
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+  if(indexPath.section == 1){
+    if(indexPath.row == 0){
+      BKPubKeyDetailsViewController *iCloudCopyViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"keyDetails"];
+      iCloudCopyViewController.pubkey = _pubkey.iCloudConflictCopy;
+      [self.navigationController pushViewController:iCloudCopyViewController animated:YES];
+    } else if (indexPath.row == 1){
+      if(_pubkey.iCloudRecordId){
+        [[BKiCloudSyncHandler sharedHandler]deleteRecord:_pubkey.iCloudRecordId ofType:BKiCloudRecordTypeKeys];
+      }
+      [BKPubKey saveCard:_pubkey.ID privateKey:_pubkey.iCloudConflictCopy.privateKey publicKey:_pubkey.iCloudConflictCopy.publicKey];
+      [BKPubKey updateCard:_pubkey.ID withiCloudId:_pubkey.iCloudConflictCopy.iCloudRecordId andLastModifiedTime:_pubkey.iCloudConflictCopy.lastModifiedTime];
+      [BKPubKey markCard:_pubkey.ID forRecord:[BKPubKey recordFromKey:_pubkey] withConflict:NO];
+      [[BKiCloudSyncHandler sharedHandler]checkForReachabilityAndSync:nil];
+      [self.navigationController popViewControllerAnimated:YES];
+    } else if(indexPath.row == 2){
+      [[BKiCloudSyncHandler sharedHandler]deleteRecord:_pubkey.iCloudConflictCopy.iCloudRecordId ofType:BKiCloudRecordTypeKeys];
+      if(!_pubkey.iCloudRecordId){
+        [BKPubKey markCard:_pubkey.iCloudConflictCopy.ID forRecord:[BKPubKey recordFromKey:_pubkey] withConflict:NO];
+      }
+      [[BKiCloudSyncHandler sharedHandler]checkForReachabilityAndSync:nil];
+      [self.navigationController popViewControllerAnimated:YES];
     }
   }
 }
