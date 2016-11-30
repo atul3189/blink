@@ -60,7 +60,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-  if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+  if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound && !_isConflictCopy) {
     [self performSegueWithIdentifier:@"unwindFromDetails" sender:self];
   }
   [super viewWillDisappear:animated];
@@ -73,7 +73,13 @@
       return NO;
     }
   }
+  return YES;
+}
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+  if(_pubkey.iCloudConflictCopy || _isConflictCopy){
+    return NO;
+  }
   return YES;
 }
 
@@ -114,6 +120,7 @@
   if(indexPath.section == 1){
     if(indexPath.row == 0){
       BKPubKeyDetailsViewController *iCloudCopyViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"keyDetails"];
+      iCloudCopyViewController.isConflictCopy = YES;
       iCloudCopyViewController.pubkey = _pubkey.iCloudConflictCopy;
       [self.navigationController pushViewController:iCloudCopyViewController animated:YES];
     } else if (indexPath.row == 1){
@@ -162,7 +169,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if(section == 0){
-    if (![self showConflictSection]) {
+    if (![self showConflictSection] && !_isConflictCopy) {
       return 1;
     } else {
       return 2;

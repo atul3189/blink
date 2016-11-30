@@ -37,5 +37,5 @@
 @interface BKPubKeyDetailsViewController : UITableViewController
 
 @property (weak, nonatomic) BKPubKey *pubkey;
-
+@property (assign, nonatomic) BOOL isConflictCopy;
 @end

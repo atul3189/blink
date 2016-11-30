@@ -362,6 +362,9 @@ static int SshEncodeBuffer(unsigned char *pEncoding, int bufferLen, unsigned cha
   _ID = [coder decodeObjectForKey:@"ID"];
   _privateKeyRef = [coder decodeObjectForKey:@"privateKeyRef"];
   _publicKey = [coder decodeObjectForKey:@"publicKey"];
+  _lastModifiedTime = [coder decodeObjectForKey:@"lastModifiedTime"];
+  _iCloudRecordId = [coder decodeObjectForKey:@"iCloudRecordId"];
+  _iCloudConflictDetected = [coder decodeObjectForKey:@"iCloudConflictDetected"];
 
   return [self initWithID:_ID privateKeyRef:_privateKeyRef publicKey:_publicKey];
 }
@@ -371,6 +374,10 @@ static int SshEncodeBuffer(unsigned char *pEncoding, int bufferLen, unsigned cha
   [coder encodeObject:_ID forKey:@"ID"];
   [coder encodeObject:_privateKeyRef forKey:@"privateKeyRef"];
   [coder encodeObject:_publicKey forKey:@"publicKey"];
+  [coder encodeObject:_lastModifiedTime forKey:@"lastModifiedTime"];
+  [coder encodeObject:_iCloudRecordId forKey:@"iCloudRecordId"];
+  [coder encodeObject:_iCloudConflictDetected forKey:@"iCloudConflictDetected"];
+
 }
 
 - (id)initWithID:(NSString *)ID privateKeyRef:(NSString *)privateKeyRef publicKey:(NSString *)publicKey
