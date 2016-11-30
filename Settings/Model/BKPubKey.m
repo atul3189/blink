@@ -326,9 +326,10 @@ static int SshEncodeBuffer(unsigned char *pEncoding, int bufferLen, unsigned cha
   return card;
 }
 
-+ (void)updateCard:(NSString*)ID withiCloudId:(CKRecordID*)iCloudId andLastModifiedTime:(NSDate*)lastModifiedTime{
++ (void)updateCard:(NSString*)ID withId:(NSString*)updatedId withiCloudId:(CKRecordID*)iCloudId andLastModifiedTime:(NSDate*)lastModifiedTime{
   BKPubKey *bkKey = [BKPubKey withID:ID];
   if(bkKey){
+    bkKey.ID = updatedId;
     bkKey.iCloudRecordId = iCloudId;
     bkKey.lastModifiedTime = lastModifiedTime;
   }
@@ -366,7 +367,8 @@ static int SshEncodeBuffer(unsigned char *pEncoding, int bufferLen, unsigned cha
   _iCloudRecordId = [coder decodeObjectForKey:@"iCloudRecordId"];
   _iCloudConflictDetected = [coder decodeObjectForKey:@"iCloudConflictDetected"];
 
-  return [self initWithID:_ID privateKeyRef:_privateKeyRef publicKey:_publicKey];
+  return self;
+//  return [self initWithID:_ID privateKeyRef:_privateKeyRef publicKey:_publicKey];
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder

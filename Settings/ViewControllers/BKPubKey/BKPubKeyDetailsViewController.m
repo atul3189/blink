@@ -108,6 +108,7 @@
 {
   if ([segue.identifier isEqualToString:@"unwindFromDetails"]) {
     if (_name.text.length && ![_name.text isEqualToString:_pubkey.ID]) {
+      [BKPubKey updateCard:_pubkey.ID withId:_name.text withiCloudId:_pubkey.iCloudRecordId andLastModifiedTime:[NSDate date]];
       _pubkey.ID = _name.text;
       [BKPubKey saveIDS];
     }
@@ -128,7 +129,7 @@
         [[BKiCloudSyncHandler sharedHandler]deleteRecord:_pubkey.iCloudRecordId ofType:BKiCloudRecordTypeKeys];
       }
       [BKPubKey saveCard:_pubkey.ID privateKey:_pubkey.iCloudConflictCopy.privateKey publicKey:_pubkey.iCloudConflictCopy.publicKey];
-      [BKPubKey updateCard:_pubkey.ID withiCloudId:_pubkey.iCloudConflictCopy.iCloudRecordId andLastModifiedTime:_pubkey.iCloudConflictCopy.lastModifiedTime];
+      [BKPubKey updateCard:_pubkey.ID  withId:_pubkey.ID withiCloudId:_pubkey.iCloudConflictCopy.iCloudRecordId andLastModifiedTime:_pubkey.iCloudConflictCopy.lastModifiedTime];
       [BKPubKey markCard:_pubkey.ID forRecord:[BKPubKey recordFromKey:_pubkey] withConflict:NO];
       [[BKiCloudSyncHandler sharedHandler]checkForReachabilityAndSync:nil];
       [self.navigationController popViewControllerAnimated:YES];

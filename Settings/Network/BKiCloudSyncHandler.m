@@ -268,7 +268,7 @@ static BKiCloudSyncHandler *sharedHandler = nil;
   CKDatabase *database = [[CKContainer containerWithIdentifier:BKiCloudContainerIdentifier]privateCloudDatabase];
   CKRecord *keyRecord = [BKPubKey recordFromKey:key];
   [database saveRecord:keyRecord completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
-    [BKPubKey updateCard:key.ID withiCloudId:record.recordID andLastModifiedTime:record.modificationDate];
+    [BKPubKey updateCard:key.ID withId:key.ID withiCloudId:record.recordID andLastModifiedTime:record.modificationDate];
   }];
 }
 
@@ -342,7 +342,7 @@ static BKiCloudSyncHandler *sharedHandler = nil;
     [[BKPubKey all]removeObject:oldKey];
   }  
   [BKPubKey saveCard:ID privateKey:[keyRecord valueForKey:@"privateKey"] publicKey:[keyRecord valueForKey:@"publicKey"]];
-  [BKPubKey updateCard:ID withiCloudId:keyRecord.recordID andLastModifiedTime:keyRecord.modificationDate];
+  [BKPubKey updateCard:ID  withId:ID withiCloudId:keyRecord.recordID andLastModifiedTime:keyRecord.modificationDate];
 }
 
 - (void)dealloc{

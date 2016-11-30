@@ -57,7 +57,7 @@
 + (instancetype)withID:(NSString *)ID;
 + (BOOL)saveIDS;
 + (id)saveCard:(NSString *)ID privateKey:(NSString *)privateKey publicKey:(NSString *)publicKey;
-+ (void)updateCard:(NSString*)ID withiCloudId:(CKRecordID*)iCloudId andLastModifiedTime:(NSDate*)lastModifiedTime;
++ (void)updateCard:(NSString*)ID withId:(NSString*)updatedId withiCloudId:(CKRecordID*)iCloudId andLastModifiedTime:(NSDate*)lastModifiedTime;
 + (void)markCard:(NSString*)ID forRecord:(CKRecord*)record withConflict:(BOOL)hasConflict;
 + (NSMutableArray *)all;
 + (NSInteger)count;
