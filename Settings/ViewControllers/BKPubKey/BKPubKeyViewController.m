@@ -34,7 +34,7 @@
 #import "BKPubKeyDetailsViewController.h"
 #import "BKPubKeyViewController.h"
 #import "BKiCloudSyncHandler.h"
-
+#import "BKUserConfigurationViewController.h"
 @interface BKPubKeyViewController ()
 
 @end
@@ -48,15 +48,16 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  [[BKiCloudSyncHandler sharedHandler]setMergeKeysCompletionBlock:^{
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
-      [self.tableView reloadData];
-    });
-  }];
-  [[BKiCloudSyncHandler sharedHandler]checkForReachabilityAndSync:nil];
+  if([BKUserConfigurationViewController userSettingsValueForKey:@"iCloudKeysSync"]){
+    [[BKiCloudSyncHandler sharedHandler]setMergeKeysCompletionBlock:^{
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
+        [self.tableView reloadData];
+      });
+    }];
+    [[BKiCloudSyncHandler sharedHandler]checkForReachabilityAndSync:nil];
+  }
 
-  
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -137,8 +138,10 @@
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     // Remove BKPubKey
     CKRecordID *recordId = [[BKPubKey.all objectAtIndex:indexPath.row]iCloudRecordId];
-    if(recordId != nil){
-      [[BKiCloudSyncHandler sharedHandler]deleteRecord:recordId ofType:BKiCloudRecordTypeKeys];
+    if([BKUserConfigurationViewController userSettingsValueForKey:@"iCloudKeysSync"]){
+      if(recordId != nil){
+        [[BKiCloudSyncHandler sharedHandler]deleteRecord:recordId ofType:BKiCloudRecordTypeKeys];
+      }
     }
     [BKPubKey.all removeObjectAtIndex:indexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:true];
