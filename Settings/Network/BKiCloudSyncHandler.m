@@ -153,10 +153,13 @@ static BKiCloudSyncHandler *sharedHandler = nil;
   [database performQuery:hostQuery inZoneWithID:nil completionHandler:^(NSArray<CKRecord *> * _Nullable results, NSError * _Nullable error) {
     [self mergeHosts:results];
   }];
-  CKQuery *pubKeyQuery = [[CKQuery alloc]initWithRecordType:@"BKPubKey" predicate:[NSPredicate predicateWithValue:YES]];
-  [database performQuery:pubKeyQuery inZoneWithID:nil completionHandler:^(NSArray<CKRecord *> * _Nullable results, NSError * _Nullable error) {
-    [self mergeKeys:results];
-  }];
+  
+  if([BKUserConfigurationViewController userSettingsValueForKey:@"iCloudKeysSync"]){
+    CKQuery *pubKeyQuery = [[CKQuery alloc]initWithRecordType:@"BKPubKey" predicate:[NSPredicate predicateWithValue:YES]];
+    [database performQuery:pubKeyQuery inZoneWithID:nil completionHandler:^(NSArray<CKRecord *> * _Nullable results, NSError * _Nullable error) {
+      [self mergeKeys:results];
+    }];
+  }
 }
 
 - (void)deleteRecord:(CKRecordID*)recordId ofType:(BKiCloudRecordType)recordType{

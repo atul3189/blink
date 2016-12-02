@@ -14,6 +14,7 @@
 @interface BKUserConfigurationViewController ()
 
 @property (nonatomic, weak) IBOutlet UISwitch *toggleiCloudSync;
+@property (nonatomic, weak) IBOutlet UISwitch *toggleiCloudKeysSync;
 
 @end
 
@@ -31,6 +32,7 @@
 
 - (void)setupUI{
   [_toggleiCloudSync setOn:[BKUserConfigurationViewController userSettingsValueForKey:@"iCloudSync"]];
+  [_toggleiCloudKeysSync setOn:[BKUserConfigurationViewController userSettingsValueForKey:@"iCloudKeysSync"]];
 }
 
 #pragma mark - Action Method
@@ -39,6 +41,9 @@
   UISwitch *toggleSwitch = (UISwitch*)sender;
   if(toggleSwitch == _toggleiCloudSync){
     [self checkiCloudStatusAndToggle];
+    [self.tableView reloadData];
+  } else if (toggleSwitch == _toggleiCloudKeysSync){
+   [BKUserConfigurationViewController setUserSettingsValue:_toggleiCloudKeysSync.isOn forKey:@"iCloudKeysSync"];
   }
 }
 
@@ -62,7 +67,6 @@
          }];
          [[UIApplication sharedApplication] registerForRemoteNotifications];
        }
-       
        [BKUserConfigurationViewController setUserSettingsValue:_toggleiCloudSync.isOn forKey:@"iCloudSync"];
      }
    }];
@@ -90,6 +94,14 @@
     return NO;
   }
   return NO;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+  if(_toggleiCloudSync.isOn){
+    return [super numberOfSectionsInTableView:tableView];
+  }else{
+    return 1;
+  }
 }
 
 
