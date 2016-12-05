@@ -87,7 +87,7 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 2;
+  return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -97,6 +97,8 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
     return _keyList.count;
   case 1:
     return 4;
+  case 2:
+    return 1;
   }
   return 0;
 }
@@ -109,6 +111,8 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
       return @"MODIFIER MAPPINGS";
     case 1:
       return @"SPECIAL KEYS";
+    case 2:
+      return @"BLINK SHORTCUTS";
   }
   return nil;
 }
@@ -124,6 +128,12 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
 
     UILabel *valueLabel = [cell viewWithTag:VALUE_LABEL_TAG];
     valueLabel.text = [_keyboardMapping objectForKey:keyLabel.text];
+  } else if (indexPath.section == 2){
+    
+    cell = [tableView dequeueReusableCellWithIdentifier:@"multipleModifierCell" forIndexPath:indexPath];
+    cell.textLabel.text = (NSString*)BKKeyboardFuncShortcutTriggers;
+    cell.detailTextLabel.text = [self detailForKeyboardFunc:BKKeyboardFuncShortcutTriggers];
+    
   } else {
     switch (indexPath.row) {
       case 0:
@@ -136,12 +146,12 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
         break;
       case 2:
         cell = [tableView dequeueReusableCellWithIdentifier:@"multipleModifierCell" forIndexPath:indexPath];
-        cell.textLabel.text = BKKeyboardFuncFTriggers;
+        cell.textLabel.text = (NSString*)BKKeyboardFuncFTriggers;
         cell.detailTextLabel.text = [self detailForKeyboardFunc:BKKeyboardFuncFTriggers];
         break;
       case 3:
         cell = [tableView dequeueReusableCellWithIdentifier:@"multipleModifierCell" forIndexPath:indexPath];
-        cell.textLabel.text = BKKeyboardFuncCursorTriggers;
+        cell.textLabel.text = (NSString*)BKKeyboardFuncCursorTriggers;
         cell.detailTextLabel.text = [self detailForKeyboardFunc:BKKeyboardFuncCursorTriggers];
         break;
       // case 4:
@@ -165,11 +175,11 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
 {
   NSString *trigger = [[BKDefaults keyboardFuncTriggers][func] componentsJoinedByString:@" + "];
 
-  if (func == BKKeyboardFuncFTriggers) {
+  if ([func isEqualToString:(NSString*)BKKeyboardFuncFTriggers]) {
     return [trigger stringByAppendingString:@" + number"];
-  } else if (func == BKKeyboardFuncCursorTriggers) {
+  } else if ([func isEqualToString:(NSString*)BKKeyboardFuncCursorTriggers]) {
     return [trigger stringByAppendingString:@" + arrow"];
-  } else if (func == BKKeyboardFuncShortcutTriggers) {
+  } else if ([func  isEqualToString:(NSString*)BKKeyboardFuncShortcutTriggers]) {
     return [trigger stringByAppendingString:@" + key"];
   }
 
@@ -206,6 +216,7 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
   } else if ([segue.identifier isEqualToString:@"keyboardFuncTriggers"]) {
     BKKeyboardFuncTriggersViewController *vc = segue.destinationViewController;
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:_currentSelectionIdx];
+    vc.function = cell.textLabel.text;
     [vc performInitialSelection:[BKDefaults keyboardFuncTriggers][cell.textLabel.text]];
   }
 }

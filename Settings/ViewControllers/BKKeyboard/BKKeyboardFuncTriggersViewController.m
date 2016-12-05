@@ -80,27 +80,56 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 1;
+  if([self.function isEqualToString:(NSString*)BKKeyboardFuncShortcutTriggers]){
+    return 2;
+  }else{
+    return 1;
+  }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return _items.count;
+  if(section == 0){
+    return _items.count;
+  }else{
+    return 1;
+  }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"keyModifierCell" forIndexPath:indexPath];
-  cell.textLabel.text = [_items objectAtIndex:indexPath.row];
-  if ([self.selectedRows containsObject:cell.textLabel.text]) {
-    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+  if(indexPath.section == 0){
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"keyModifierCell" forIndexPath:indexPath];
+    cell.textLabel.text = [_items objectAtIndex:indexPath.row];
+    if ([self.selectedRows containsObject:cell.textLabel.text]) {
+      [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    } else {
+      [cell setAccessoryType:UITableViewCellAccessoryNone];
+    }
+    return cell;
   } else {
-    [cell setAccessoryType:UITableViewCellAccessoryNone];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"descriptionCell" forIndexPath:indexPath];
+    return cell;
   }
-  return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.section == 0){
+      return 44.0;
+    }else{
+      return 88.0;
+    }
+}
+
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+  if(section == 0){
+    return @"TRIGGERS";
+  }else{
+    return @"SHORTCUTS HELP";
+  }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
