@@ -122,6 +122,7 @@
 		B7A487651DC7BD65007BA809 /* BKDefaultUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A487641DC7BD65007BA809 /* BKDefaultUserViewController.m */; };
 		B7A487691DC7C48D007BA809 /* UIDevice+DeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A487681DC7C48D007BA809 /* UIDevice+DeviceName.m */; };
 		B7A4876D1DC7C709007BA809 /* BKSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A4876C1DC7C709007BA809 /* BKSettingsViewController.m */; };
+		B7B3FC401DF5E99200B3D37C /* BKTouchIDAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B3FC3F1DF5E99200B3D37C /* BKTouchIDAuthManager.m */; };
 		B7D450361DD3A87200CE0DBE /* BKiCloudSyncHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D450351DD3A87200CE0DBE /* BKiCloudSyncHandler.m */; };
 		B7D4503C1DD4706000CE0DBE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D4503B1DD4706000CE0DBE /* Reachability.m */; };
 		C94437571D8311960096F84E /* BKResource.m in Sources */ = {isa = PBXBuildFile; fileRef = C94437561D8311960096F84E /* BKResource.m */; };
@@ -329,6 +330,8 @@
 		B7A487681DC7C48D007BA809 /* UIDevice+DeviceName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+DeviceName.m"; sourceTree = "<group>"; };
 		B7A4876B1DC7C709007BA809 /* BKSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKSettingsViewController.h; sourceTree = "<group>"; };
 		B7A4876C1DC7C709007BA809 /* BKSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKSettingsViewController.m; sourceTree = "<group>"; };
+		B7B3FC3E1DF5E99200B3D37C /* BKTouchIDAuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKTouchIDAuthManager.h; sourceTree = "<group>"; };
+		B7B3FC3F1DF5E99200B3D37C /* BKTouchIDAuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKTouchIDAuthManager.m; sourceTree = "<group>"; };
 		B7D450341DD3A87200CE0DBE /* BKiCloudSyncHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKiCloudSyncHandler.h; sourceTree = "<group>"; };
 		B7D450351DD3A87200CE0DBE /* BKiCloudSyncHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKiCloudSyncHandler.m; sourceTree = "<group>"; };
 		B7D4503A1DD4706000CE0DBE /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -636,6 +639,15 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		B7B3FC3A1DF5E96900B3D37C /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				B7B3FC3E1DF5E99200B3D37C /* BKTouchIDAuthManager.h */,
+				B7B3FC3F1DF5E99200B3D37C /* BKTouchIDAuthManager.m */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
 		C989E53B1D6CC488003E0079 /* BKHosts */ = {
 			isa = PBXGroup;
 			children = (
@@ -696,6 +708,7 @@
 				C94E9B611D6BA21C00DA4DD6 /* DismissSegue.h */,
 				C94E9B621D6BA21C00DA4DD6 /* DismissSegue.m */,
 				C9B2E0041D6B612300B89F69 /* Settings.storyboard */,
+				B7B3FC3A1DF5E96900B3D37C /* Security */,
 				C9B2E0061D6B612300B89F69 /* Model */,
 				C9B2E0111D6B612300B89F69 /* Network */,
 				C9B2E0141D6B612300B89F69 /* ViewControllers */,
@@ -1103,6 +1116,7 @@
 				C9472D561D74E9BA001B6022 /* BKKeyboardFuncTriggersViewController.m in Sources */,
 				C989E5661D6CC95A003E0079 /* BKPubKeyDetailsViewController.m in Sources */,
 				C989E54D1D6CC488003E0079 /* BKKeyboardModifierViewController.m in Sources */,
+				B7B3FC401DF5E99200B3D37C /* BKTouchIDAuthManager.m in Sources */,
 				079635871D0E6602000473B1 /* TermView.m in Sources */,
 				C989E54E1D6CC488003E0079 /* BKKeyboardViewController.m in Sources */,
 			);
