@@ -8,6 +8,8 @@
 
 #import "BKTouchIDAuthManager.h"
 #import "BKUserConfigurationViewController.h"
+#import "Blink-swift.h"
+
 @import LocalAuthentication;
 
 static BKTouchIDAuthManager *sharedManager = nil;

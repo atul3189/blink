@@ -10,6 +10,7 @@
 #import "BKDefaults.h"
 #import "BKiCloudSyncHandler.h"
 #import "BKUserConfigurationViewController.h"
+
 @interface BKSettingsViewController ()
 
 @property (nonatomic, weak) IBOutlet UILabel *userNameLabel;

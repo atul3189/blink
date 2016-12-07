@@ -10,11 +10,13 @@
 @import UserNotifications;
 
 #import "BKUserConfigurationViewController.h"
+#import "Blink-swift.h"
 
 @interface BKUserConfigurationViewController ()
 
 @property (nonatomic, weak) IBOutlet UISwitch *toggleiCloudSync;
 @property (nonatomic, weak) IBOutlet UISwitch *toggleiCloudKeysSync;
+@property (nonatomic, weak) IBOutlet UISwitch *toggleAppLock;
 
 @end
 
@@ -44,6 +46,9 @@
     [self.tableView reloadData];
   } else if (toggleSwitch == _toggleiCloudKeysSync){
    [BKUserConfigurationViewController setUserSettingsValue:_toggleiCloudKeysSync.isOn forKey:@"iCloudKeysSync"];
+  } else if (toggleSwitch == _toggleAppLock){
+        
+    
   }
 }
 
