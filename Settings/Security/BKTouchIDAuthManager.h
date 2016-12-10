@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 @interface BKTouchIDAuthManager : NSObject
-
 + (id)sharedManager;
 + (BOOL)requiresTouchAuth;
+- (void)registerforDeviceLockNotif;
 - (void)authenticateUserWithCallBack:(void (^) (BOOL)) completionBlock;
 @end

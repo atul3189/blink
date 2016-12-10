@@ -45,10 +45,31 @@ public class PasscodeLockViewController: UIViewController, PasscodeLockTypeDeleg
     internal var isPlaceholdersAnimationCompleted = true
     
     private var shouldTryToAuthenticateWithBiometrics = true
+  
+  public convenience init(stateString: String){
+    var state : LockState
+    switch stateString {
+    case "EnterPassCode":
+      state = .EnterPasscode
     
+    case "ChangePasscode":
+      state = .ChangePasscode
+    
+    case "RemovePasscode":
+      state = .RemovePasscode
+      
+    case "SetPasscode":
+      state = .SetPasscode
+
+    default:
+      state = .EnterPasscode
+    }
+    
+    self.init(state: state, configuration: PasscodeLockConfiguration(), animateOnDismiss: true)
+  }
+  
     // MARK: - Initializers
-    
-    public init(state: PasscodeLockStateType, configuration: PasscodeLockConfigurationType, animateOnDismiss: Bool = true) {
+    public required init(state: PasscodeLockStateType, configuration: PasscodeLockConfigurationType, animateOnDismiss: Bool = true) {
         
         self.animateOnDismiss = animateOnDismiss
         

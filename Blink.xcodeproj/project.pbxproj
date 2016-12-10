@@ -118,7 +118,26 @@
 		07F670761D05EEE200C0A53C /* SSHCopyIDSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F6706E1D05EEE200C0A53C /* SSHCopyIDSession.m */; };
 		07F670771D05EEE200C0A53C /* SSHSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F670701D05EEE200C0A53C /* SSHSession.m */; };
 		B700AED81DD0F2C200100EBF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B700AED71DD0F2C200100EBF /* CloudKit.framework */; };
+		B7304D7D1DFC2BE200CF4D28 /* PasscodeLockConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7304D7B1DFC2BE200CF4D28 /* PasscodeLockConfiguration.swift */; };
+		B7304D7E1DFC2BE200CF4D28 /* UserDefaultsPasscodeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7304D7C1DFC2BE200CF4D28 /* UserDefaultsPasscodeRepository.swift */; };
 		B75112CD1DE4A7B10040C693 /* BKUserConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75112CC1DE4A7B10040C693 /* BKUserConfigurationViewController.m */; };
+		B76657111DFC284C009F4518 /* PasscodeLock.strings in Resources */ = {isa = PBXBuildFile; fileRef = B76656FB1DFC284C009F4518 /* PasscodeLock.strings */; };
+		B76657121DFC284C009F4518 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76656FD1DFC284C009F4518 /* Functions.swift */; };
+		B76657131DFC284C009F4518 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B76656FE1DFC284C009F4518 /* Info.plist */; };
+		B76657141DFC284C009F4518 /* ChangePasscodeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76657001DFC284C009F4518 /* ChangePasscodeState.swift */; };
+		B76657151DFC284C009F4518 /* ConfirmPasscodeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76657011DFC284C009F4518 /* ConfirmPasscodeState.swift */; };
+		B76657161DFC284C009F4518 /* EnterPasscodeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76657021DFC284C009F4518 /* EnterPasscodeState.swift */; };
+		B76657171DFC284C009F4518 /* PasscodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76657031DFC284C009F4518 /* PasscodeLock.swift */; };
+		B76657181DFC284C009F4518 /* SetPasscodeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76657041DFC284C009F4518 /* SetPasscodeState.swift */; };
+		B76657191DFC284C009F4518 /* PasscodeLockPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76657061DFC284C009F4518 /* PasscodeLockPresenter.swift */; };
+		B766571A1DFC284C009F4518 /* PasscodeLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76657071DFC284C009F4518 /* PasscodeLockViewController.swift */; };
+		B766571B1DFC284C009F4518 /* PasscodeLockConfigurationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76657091DFC284C009F4518 /* PasscodeLockConfigurationType.swift */; };
+		B766571C1DFC284C009F4518 /* PasscodeLockStateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B766570A1DFC284C009F4518 /* PasscodeLockStateType.swift */; };
+		B766571D1DFC284C009F4518 /* PasscodeLockType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B766570B1DFC284C009F4518 /* PasscodeLockType.swift */; };
+		B766571E1DFC284D009F4518 /* PasscodeRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B766570C1DFC284C009F4518 /* PasscodeRepositoryType.swift */; };
+		B766571F1DFC284D009F4518 /* PasscodeLockView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B766570E1DFC284C009F4518 /* PasscodeLockView.xib */; };
+		B76657201DFC284D009F4518 /* PasscodeSignButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B766570F1DFC284C009F4518 /* PasscodeSignButton.swift */; };
+		B76657211DFC284D009F4518 /* PasscodeSignPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76657101DFC284C009F4518 /* PasscodeSignPlaceholderView.swift */; };
 		B7A487651DC7BD65007BA809 /* BKDefaultUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A487641DC7BD65007BA809 /* BKDefaultUserViewController.m */; };
 		B7A487691DC7C48D007BA809 /* UIDevice+DeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A487681DC7C48D007BA809 /* UIDevice+DeviceName.m */; };
 		B7A4876D1DC7C709007BA809 /* BKSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A4876C1DC7C709007BA809 /* BKSettingsViewController.m */; };
@@ -322,8 +341,28 @@
 		07F6706F1D05EEE200C0A53C /* SSHSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSHSession.h; sourceTree = "<group>"; };
 		07F670701D05EEE200C0A53C /* SSHSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSHSession.m; sourceTree = "<group>"; };
 		B700AED71DD0F2C200100EBF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		B7304D7B1DFC2BE200CF4D28 /* PasscodeLockConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockConfiguration.swift; sourceTree = "<group>"; };
+		B7304D7C1DFC2BE200CF4D28 /* UserDefaultsPasscodeRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsPasscodeRepository.swift; sourceTree = "<group>"; };
 		B75112CB1DE4A7B10040C693 /* BKUserConfigurationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKUserConfigurationViewController.h; sourceTree = "<group>"; };
 		B75112CC1DE4A7B10040C693 /* BKUserConfigurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKUserConfigurationViewController.m; sourceTree = "<group>"; };
+		B76656FC1DFC284C009F4518 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/PasscodeLock.strings; sourceTree = "<group>"; };
+		B76656FD1DFC284C009F4518 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		B76656FE1DFC284C009F4518 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B76657001DFC284C009F4518 /* ChangePasscodeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasscodeState.swift; sourceTree = "<group>"; };
+		B76657011DFC284C009F4518 /* ConfirmPasscodeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmPasscodeState.swift; sourceTree = "<group>"; };
+		B76657021DFC284C009F4518 /* EnterPasscodeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterPasscodeState.swift; sourceTree = "<group>"; };
+		B76657031DFC284C009F4518 /* PasscodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLock.swift; sourceTree = "<group>"; };
+		B76657041DFC284C009F4518 /* SetPasscodeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetPasscodeState.swift; sourceTree = "<group>"; };
+		B76657051DFC284C009F4518 /* PasscodeLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasscodeLock.h; sourceTree = "<group>"; };
+		B76657061DFC284C009F4518 /* PasscodeLockPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockPresenter.swift; sourceTree = "<group>"; };
+		B76657071DFC284C009F4518 /* PasscodeLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockViewController.swift; sourceTree = "<group>"; };
+		B76657091DFC284C009F4518 /* PasscodeLockConfigurationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockConfigurationType.swift; sourceTree = "<group>"; };
+		B766570A1DFC284C009F4518 /* PasscodeLockStateType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockStateType.swift; sourceTree = "<group>"; };
+		B766570B1DFC284C009F4518 /* PasscodeLockType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockType.swift; sourceTree = "<group>"; };
+		B766570C1DFC284C009F4518 /* PasscodeRepositoryType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeRepositoryType.swift; sourceTree = "<group>"; };
+		B766570E1DFC284C009F4518 /* PasscodeLockView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PasscodeLockView.xib; sourceTree = "<group>"; };
+		B766570F1DFC284C009F4518 /* PasscodeSignButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeSignButton.swift; sourceTree = "<group>"; };
+		B76657101DFC284C009F4518 /* PasscodeSignPlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeSignPlaceholderView.swift; sourceTree = "<group>"; };
 		B7A487631DC7BD65007BA809 /* BKDefaultUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKDefaultUserViewController.h; sourceTree = "<group>"; };
 		B7A487641DC7BD65007BA809 /* BKDefaultUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKDefaultUserViewController.m; sourceTree = "<group>"; };
 		B7A487671DC7C48D007BA809 /* UIDevice+DeviceName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+DeviceName.h"; sourceTree = "<group>"; };
@@ -619,6 +658,57 @@
 			path = UserConfiguration;
 			sourceTree = "<group>";
 		};
+		B76656FA1DFC284C009F4518 /* PasscodeLock */ = {
+			isa = PBXGroup;
+			children = (
+				B76656FB1DFC284C009F4518 /* PasscodeLock.strings */,
+				B76656FD1DFC284C009F4518 /* Functions.swift */,
+				B76656FE1DFC284C009F4518 /* Info.plist */,
+				B76656FF1DFC284C009F4518 /* PasscodeLock */,
+				B76657051DFC284C009F4518 /* PasscodeLock.h */,
+				B76657061DFC284C009F4518 /* PasscodeLockPresenter.swift */,
+				B76657071DFC284C009F4518 /* PasscodeLockViewController.swift */,
+				B7304D7B1DFC2BE200CF4D28 /* PasscodeLockConfiguration.swift */,
+				B7304D7C1DFC2BE200CF4D28 /* UserDefaultsPasscodeRepository.swift */,
+				B76657081DFC284C009F4518 /* Protocols */,
+				B766570D1DFC284C009F4518 /* Views */,
+			);
+			path = PasscodeLock;
+			sourceTree = "<group>";
+		};
+		B76656FF1DFC284C009F4518 /* PasscodeLock */ = {
+			isa = PBXGroup;
+			children = (
+				B76657001DFC284C009F4518 /* ChangePasscodeState.swift */,
+				B76657011DFC284C009F4518 /* ConfirmPasscodeState.swift */,
+				B76657021DFC284C009F4518 /* EnterPasscodeState.swift */,
+				B76657031DFC284C009F4518 /* PasscodeLock.swift */,
+				B76657041DFC284C009F4518 /* SetPasscodeState.swift */,
+			);
+			path = PasscodeLock;
+			sourceTree = "<group>";
+		};
+		B76657081DFC284C009F4518 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				B76657091DFC284C009F4518 /* PasscodeLockConfigurationType.swift */,
+				B766570A1DFC284C009F4518 /* PasscodeLockStateType.swift */,
+				B766570B1DFC284C009F4518 /* PasscodeLockType.swift */,
+				B766570C1DFC284C009F4518 /* PasscodeRepositoryType.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		B766570D1DFC284C009F4518 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B766570E1DFC284C009F4518 /* PasscodeLockView.xib */,
+				B766570F1DFC284C009F4518 /* PasscodeSignButton.swift */,
+				B76657101DFC284C009F4518 /* PasscodeSignPlaceholderView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		B7A4875F1DC7BD29007BA809 /* BKDefaultUser */ = {
 			isa = PBXGroup;
 			children = (
@@ -644,6 +734,7 @@
 			children = (
 				B7B3FC3E1DF5E99200B3D37C /* BKTouchIDAuthManager.h */,
 				B7B3FC3F1DF5E99200B3D37C /* BKTouchIDAuthManager.m */,
+				B76656FA1DFC284C009F4518 /* PasscodeLock */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -998,12 +1089,15 @@
 				07E3AED31D919272007BC086 /* css in Resources */,
 				073D26C01DC4137000965AB2 /* SmartKeys.xib in Resources */,
 				C94437601D831CD30096F84E /* Themes in Resources */,
+				B766571F1DFC284D009F4518 /* PasscodeLockView.xib in Resources */,
 				07E4C5211C935E28000C571A /* Media.xcassets in Resources */,
 				0732F04D1D062B9A00AB5438 /* locales.bundle in Resources */,
 				07E3AECD1D9191B4007BC086 /* about.html in Resources */,
 				0716B5741CFFAB9300268B5B /* LaunchScreen.storyboard in Resources */,
+				B76657111DFC284C009F4518 /* PasscodeLock.strings in Resources */,
 				C94437651D838ABF0096F84E /* Fonts in Resources */,
 				0716B5751CFFAB9300268B5B /* Main.storyboard in Resources */,
+				B76657131DFC284C009F4518 /* Info.plist in Resources */,
 				0732F04C1D062B9A00AB5438 /* hterm_all.js in Resources */,
 				0732F04E1D062B9A00AB5438 /* term.html in Resources */,
 				07E3AED11D9191B4007BC086 /* blink.png in Resources */,
@@ -1073,25 +1167,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				073D26C11DC4137000965AB2 /* SmartKeysView.m in Sources */,
+				B76657211DFC284D009F4518 /* PasscodeSignPlaceholderView.swift in Sources */,
+				B766571B1DFC284C009F4518 /* PasscodeLockConfigurationType.swift in Sources */,
 				B7A4876D1DC7C709007BA809 /* BKSettingsViewController.m in Sources */,
 				C94E9B631D6BA21C00DA4DD6 /* DismissSegue.m in Sources */,
+				B76657201DFC284D009F4518 /* PasscodeSignButton.swift in Sources */,
 				0716B5721CFFAB9300268B5B /* AppDelegate.m in Sources */,
+				B76657161DFC284C009F4518 /* EnterPasscodeState.swift in Sources */,
 				07F670731D05EEE200C0A53C /* MoshSession.m in Sources */,
 				07F670721D05EEE200C0A53C /* MCPSession.m in Sources */,
 				073D26BE1DC4137000965AB2 /* SKNonModifierButton.m in Sources */,
 				073D26BF1DC4137000965AB2 /* SmartKeys.m in Sources */,
+				B76657181DFC284C009F4518 /* SetPasscodeState.swift in Sources */,
+				B7304D7D1DFC2BE200CF4D28 /* PasscodeLockConfiguration.swift in Sources */,
 				C9B2E0301D6B612400B89F69 /* BKPubKey.m in Sources */,
 				B7D4503C1DD4706000CE0DBE /* Reachability.m in Sources */,
 				C94437571D8311960096F84E /* BKResource.m in Sources */,
 				07F670771D05EEE200C0A53C /* SSHSession.m in Sources */,
 				07F670761D05EEE200C0A53C /* SSHCopyIDSession.m in Sources */,
+				B76657141DFC284C009F4518 /* ChangePasscodeState.swift in Sources */,
+				B76657121DFC284C009F4518 /* Functions.swift in Sources */,
 				C9B2E0351D6B612400B89F69 /* BKSettingsFileDownloader.m in Sources */,
 				C989E5561D6CC4A1003E0079 /* BKAppearanceViewController.m in Sources */,
 				C989E54B1D6CC488003E0079 /* BKHostsViewController.m in Sources */,
+				B76657151DFC284C009F4518 /* ConfirmPasscodeState.swift in Sources */,
 				B7A487691DC7C48D007BA809 /* UIDevice+DeviceName.m in Sources */,
 				C9B2E0321D6B612400B89F69 /* BKFont.m in Sources */,
 				073D26BD1DC4137000965AB2 /* SKModifierButton.m in Sources */,
 				074F30791D062A2800A73445 /* main.m in Sources */,
+				B766571D1DFC284C009F4518 /* PasscodeLockType.swift in Sources */,
 				079635881D0E6602000473B1 /* fterm.m in Sources */,
 				07E3AEB31D8F6775007BC086 /* BKSupportViewController.m in Sources */,
 				07E3AEC61D9190CF007BC086 /* BKAboutViewController.m in Sources */,
@@ -1102,19 +1206,25 @@
 				07E3AEB61D8F6E2E007BC086 /* BKLinkActions.m in Sources */,
 				C9B2E0331D6B612400B89F69 /* BKHosts.m in Sources */,
 				C989E54A1D6CC488003E0079 /* BKHostsDetailViewController.m in Sources */,
+				B766571C1DFC284C009F4518 /* PasscodeLockStateType.swift in Sources */,
 				C989E5651D6CC95A003E0079 /* BKPubKeyCreateViewController.m in Sources */,
 				07E3AEB01D8F6758007BC086 /* BKFeedbackViewController.m in Sources */,
 				07F670711D05EEE200C0A53C /* linenoise.c in Sources */,
 				B7D450361DD3A87200CE0DBE /* BKiCloudSyncHandler.m in Sources */,
+				B7304D7E1DFC2BE200CF4D28 /* UserDefaultsPasscodeRepository.swift in Sources */,
 				C989E54C1D6CC488003E0079 /* BKPredictionViewController.m in Sources */,
 				C9B2E0341D6B612400B89F69 /* BKTheme.m in Sources */,
+				B766571A1DFC284C009F4518 /* PasscodeLockViewController.swift in Sources */,
 				0716B5961CFFAB9300268B5B /* TermController.m in Sources */,
 				0716B5911CFFAB9300268B5B /* SpaceController.m in Sources */,
+				B76657171DFC284C009F4518 /* PasscodeLock.swift in Sources */,
 				C989E5671D6CC95A003E0079 /* BKPubKeyViewController.m in Sources */,
 				B7A487651DC7BD65007BA809 /* BKDefaultUserViewController.m in Sources */,
 				073D26BC1DC4137000965AB2 /* SKButton.m in Sources */,
 				B75112CD1DE4A7B10040C693 /* BKUserConfigurationViewController.m in Sources */,
 				C989E5571D6CC4A1003E0079 /* BKFontCreateViewController.m in Sources */,
+				B766571E1DFC284D009F4518 /* PasscodeRepositoryType.swift in Sources */,
+				B76657191DFC284C009F4518 /* PasscodeLockPresenter.swift in Sources */,
 				C9472D561D74E9BA001B6022 /* BKKeyboardFuncTriggersViewController.m in Sources */,
 				C989E5661D6CC95A003E0079 /* BKPubKeyDetailsViewController.m in Sources */,
 				C989E54D1D6CC488003E0079 /* BKKeyboardModifierViewController.m in Sources */,
@@ -1177,6 +1287,14 @@
 				0716B52F1CFFAB9300268B5B /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		B76656FB1DFC284C009F4518 /* PasscodeLock.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B76656FC1DFC284C009F4518 /* en */,
+			);
+			name = PasscodeLock.strings;
 			sourceTree = "<group>";
 		};
 		C9B2E0041D6B612300B89F69 /* Settings.storyboard */ = {
@@ -1417,6 +1535,7 @@
 		EA0BA1B11C0CC57C00719C1A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = BlinkUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Carlos.BlinkUITests;
@@ -1430,6 +1549,7 @@
 		EA0BA1B21C0CC57C00719C1A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = BlinkUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Carlos.BlinkUITests;

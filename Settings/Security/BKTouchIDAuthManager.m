@@ -17,6 +17,9 @@ static BOOL authRequired = NO;
 
 @interface BKTouchIDAuthManager ()
 
+@property (nonatomic, strong) UIViewController *rootViewController;
+@property (nonatomic, strong) PasscodeLockViewController *lockViewController;
+
 @end
 
 @implementation BKTouchIDAuthManager
@@ -37,7 +40,6 @@ static BOOL authRequired = NO;
 - (instancetype)init{
   self = [super init];
   if(self){
-    [self registerforDeviceLockNotif];
   }
   return self;
 }
@@ -58,13 +60,13 @@ static BOOL authRequired = NO;
                                   NULL, // object
                                   CFNotificationSuspensionBehaviorDeliverImmediately);
   
-  [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+  [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 
-- (void)didBecomeActive:(NSNotification*)notification{
+- (void)didEnterBackground:(NSNotification*)notification{
   if([BKTouchIDAuthManager requiresTouchAuth]){
-    [self authenticateUserWithCallBack:nil];
+    [self authenticateUser];
   }
 }
 
@@ -91,55 +93,19 @@ static void displayStatusChanged(CFNotificationCenterRef center, void *observer,
   return authRequired;
 }
 
-- (void)authenticateUserWithCallBack:(void (^) (BOOL)) completionBlock{
-  LAContext *context = [[LAContext alloc] init];
-  
-  NSError *error = nil;
-  if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
-    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-            localizedReason:@"Are you the device owner?"
-                      reply:^(BOOL success, NSError *error) {
-                        
-                        if (error) {
-                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                          message:@"There was a problem verifying your identity."
-                                                                         delegate:nil
-                                                                cancelButtonTitle:@"Ok"
-                                                                otherButtonTitles:nil];
-                          [alert show];
-                          return;
-                        }
-                        
-                        if (success) {
-                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                                          message:@"You are the device owner!"
-                                                                         delegate:nil
-                                                                cancelButtonTitle:@"Ok"
-                                                                otherButtonTitles:nil];
-                          [alert show];
-                          authRequired = NO;
-                          
-                        } else {
-                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                          message:@"You are not the device owner."
-                                                                         delegate:nil
-                                                                cancelButtonTitle:@"Ok"
-                                                                otherButtonTitles:nil];
-                          [alert show];
-                        }
-                        
-                      }];
-    
-  } else {
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                    message:@"Your device cannot authenticate using TouchID."
-                                                   delegate:nil
-                                          cancelButtonTitle:@"Ok"
-                                          otherButtonTitles:nil];
-    [alert show];
-    
+- (void)authenticateUser{
+  if(_lockViewController == nil){
+    _lockViewController = [[PasscodeLockViewController alloc]initWithStateString:@"EnterPassCode"];
+    __weak BKTouchIDAuthManager *weakSelf = self;
+    _lockViewController.dismissCompletionCallback = ^{
+      authRequired = NO;
+      [[[UIApplication sharedApplication]keyWindow]setRootViewController:weakSelf.rootViewController];
+      weakSelf.lockViewController = nil;
+    };
+    _rootViewController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
+    [[[UIApplication sharedApplication]keyWindow]setRootViewController:_lockViewController];
   }
 }
+
 
 @end

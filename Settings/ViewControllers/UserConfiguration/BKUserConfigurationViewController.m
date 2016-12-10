@@ -47,7 +47,14 @@
   } else if (toggleSwitch == _toggleiCloudKeysSync){
    [BKUserConfigurationViewController setUserSettingsValue:_toggleiCloudKeysSync.isOn forKey:@"iCloudKeysSync"];
   } else if (toggleSwitch == _toggleAppLock){
-        
+    NSString *state = nil;
+    if([toggleSwitch isOn]){
+      state = @"SetPasscode";
+    }else{
+      state = @"RemovePasscode";
+    }
+    PasscodeLockViewController *lockViewController = [[PasscodeLockViewController alloc]initWithStateString:state];
+    [self.navigationController pushViewController:lockViewController animated:YES];
     
   }
 }
