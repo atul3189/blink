@@ -122,6 +122,7 @@
 		B7304D7E1DFC2BE200CF4D28 /* UserDefaultsPasscodeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7304D7C1DFC2BE200CF4D28 /* UserDefaultsPasscodeRepository.swift */; };
 		B75112CD1DE4A7B10040C693 /* BKiCloudConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75112CC1DE4A7B10040C693 /* BKiCloudConfigurationViewController.m */; };
 		B752EE2B1DFEF19D00E305C8 /* BKUserConfigurationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B752EE2A1DFEF19D00E305C8 /* BKUserConfigurationManager.m */; };
+		B752EE2E1DFEF45300E305C8 /* BKSecurityConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B752EE2D1DFEF45300E305C8 /* BKSecurityConfigurationViewController.m */; };
 		B76657111DFC284C009F4518 /* PasscodeLock.strings in Resources */ = {isa = PBXBuildFile; fileRef = B76656FB1DFC284C009F4518 /* PasscodeLock.strings */; };
 		B76657121DFC284C009F4518 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76656FD1DFC284C009F4518 /* Functions.swift */; };
 		B76657131DFC284C009F4518 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B76656FE1DFC284C009F4518 /* Info.plist */; };
@@ -348,6 +349,8 @@
 		B75112CC1DE4A7B10040C693 /* BKiCloudConfigurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKiCloudConfigurationViewController.m; sourceTree = "<group>"; };
 		B752EE291DFEF19D00E305C8 /* BKUserConfigurationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKUserConfigurationManager.h; sourceTree = "<group>"; };
 		B752EE2A1DFEF19D00E305C8 /* BKUserConfigurationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKUserConfigurationManager.m; sourceTree = "<group>"; };
+		B752EE2C1DFEF45300E305C8 /* BKSecurityConfigurationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKSecurityConfigurationViewController.h; sourceTree = "<group>"; };
+		B752EE2D1DFEF45300E305C8 /* BKSecurityConfigurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKSecurityConfigurationViewController.m; sourceTree = "<group>"; };
 		B76656FC1DFC284C009F4518 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/PasscodeLock.strings; sourceTree = "<group>"; };
 		B76656FD1DFC284C009F4518 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		B76656FE1DFC284C009F4518 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -659,6 +662,8 @@
 				B752EE2A1DFEF19D00E305C8 /* BKUserConfigurationManager.m */,
 				B75112CB1DE4A7B10040C693 /* BKiCloudConfigurationViewController.h */,
 				B75112CC1DE4A7B10040C693 /* BKiCloudConfigurationViewController.m */,
+				B752EE2C1DFEF45300E305C8 /* BKSecurityConfigurationViewController.h */,
+				B752EE2D1DFEF45300E305C8 /* BKSecurityConfigurationViewController.m */,
 			);
 			path = UserConfiguration;
 			sourceTree = "<group>";
@@ -1187,6 +1192,7 @@
 				B7304D7D1DFC2BE200CF4D28 /* PasscodeLockConfiguration.swift in Sources */,
 				C9B2E0301D6B612400B89F69 /* BKPubKey.m in Sources */,
 				B7D4503C1DD4706000CE0DBE /* Reachability.m in Sources */,
+				B752EE2E1DFEF45300E305C8 /* BKSecurityConfigurationViewController.m in Sources */,
 				C94437571D8311960096F84E /* BKResource.m in Sources */,
 				07F670771D05EEE200C0A53C /* SSHSession.m in Sources */,
 				07F670761D05EEE200C0A53C /* SSHCopyIDSession.m in Sources */,

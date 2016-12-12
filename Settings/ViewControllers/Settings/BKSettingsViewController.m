@@ -16,7 +16,7 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *userNameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *iCloudSyncStatusLabel;
-
+@property (nonatomic, weak) IBOutlet UILabel *autoLockStatusLabel;
 @end
 
 @implementation BKSettingsViewController
@@ -34,6 +34,7 @@
   [super viewWillAppear:animated];
   self.userNameLabel.text = [BKDefaults defaultUserName];
   self.iCloudSyncStatusLabel.text = [BKUserConfigurationManager userSettingsValueForKey:@"iCloudSync"] == true ? @"On" : @"Off";
+  self.autoLockStatusLabel.text = [BKUserConfigurationManager userSettingsValueForKey:@"autoLock"] == true ? @"On" : @"Off";
 }
 
 - (void)didReceiveMemoryWarning {
