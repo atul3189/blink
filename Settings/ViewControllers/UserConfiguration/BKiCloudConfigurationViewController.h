@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BKiCloudConfigurationViewController : UITableViewController
-+ (BOOL)userSettingsValueForKey:(NSString*)key;
+
 @end

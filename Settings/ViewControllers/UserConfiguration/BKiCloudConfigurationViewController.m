@@ -34,8 +34,8 @@
 }
 
 - (void)setupUI{
-  [_toggleiCloudSync setOn:[BKiCloudConfigurationViewController userSettingsValueForKey:@"iCloudSync"]];
-  [_toggleiCloudKeysSync setOn:[BKiCloudConfigurationViewController userSettingsValueForKey:@"iCloudKeysSync"]];
+  [_toggleiCloudSync setOn:[BKUserConfigurationManager userSettingsValueForKey:@"iCloudSync"]];
+  [_toggleiCloudKeysSync setOn:[BKUserConfigurationManager userSettingsValueForKey:@"iCloudKeysSync"]];
 }
 
 #pragma mark - Action Method
