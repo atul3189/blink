@@ -9,7 +9,7 @@
 #import "BKSettingsViewController.h"
 #import "BKDefaults.h"
 #import "BKiCloudSyncHandler.h"
-#import "BKUserConfigurationViewController.h"
+#import "BKiCloudConfigurationViewController.h"
 #import "BKTouchIDAuthManager.h"
 @interface BKSettingsViewController ()
 
@@ -32,7 +32,7 @@
 - (void)viewWillAppear:(BOOL)animated{
   [super viewWillAppear:animated];
   self.userNameLabel.text = [BKDefaults defaultUserName];
-  self.iCloudSyncStatusLabel.text = [BKUserConfigurationViewController userSettingsValueForKey:@"iCloudSync"] == true ? @"On" : @"Off";
+  self.iCloudSyncStatusLabel.text = [BKiCloudConfigurationViewController userSettingsValueForKey:@"iCloudSync"] == true ? @"On" : @"Off";
 }
 
 - (void)didReceiveMemoryWarning {

@@ -33,7 +33,7 @@
 #import "BKDefaults.h"
 #import "UIDevice+DeviceName.h"
 #import "BKiCloudSyncHandler.h"
-#import "BKUserConfigurationViewController.h"
+#import "BKUserConfigurationManager.h"
 
 @interface BKPubKeyCreateViewController () <UITextFieldDelegate>
 
@@ -106,7 +106,7 @@
       // Create and return
       SshRsa *key = _key ? _key : [[SshRsa alloc] initWithLength:length];
       _pubkey = [BKPubKey saveCard:_nameField.text privateKey:[key privateKeyWithPassphrase:_passphraseField.text] publicKey:[key publicKeyWithComment:_commentsField.text]];
-      if([BKUserConfigurationViewController userSettingsValueForKey:@"iCloudKeysSync"]){
+      if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudKeysSync"]){
         [BKPubKey updateCard:_nameField.text  withId:_nameField.text withiCloudId:_pubkey.iCloudRecordId andLastModifiedTime:[NSDate date]];
         [[BKiCloudSyncHandler sharedHandler]checkForReachabilityAndSync:nil];
       }

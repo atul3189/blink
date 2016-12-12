@@ -1,5 +1,5 @@
 //
-//  BKUserConfigurationViewController.h
+//  BKiCloudConfigurationViewController
 //  Blink
 //
 //  Created by Atul M on 22/11/16.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BKUserConfigurationViewController : UITableViewController
+@interface BKiCloudConfigurationViewController : UITableViewController
 + (BOOL)userSettingsValueForKey:(NSString*)key;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "BKTouchIDAuthManager.h"
-#import "BKUserConfigurationViewController.h"
+#import "BKUserConfigurationManager.h"
 #import "Blink-swift.h"
 
 @import LocalAuthentication;
@@ -25,7 +25,7 @@ static BOOL authRequired = NO;
 @implementation BKTouchIDAuthManager
 
 + (id)sharedManager{
-  if([BKUserConfigurationViewController userSettingsValueForKey:@"iCloudSync"]){
+  if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudSync"]){
     if(sharedManager == nil){
       sharedManager = [[self alloc] init];
     }

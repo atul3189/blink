@@ -7,7 +7,7 @@
 //
 
 #import "BKiCloudSyncHandler.h"
-#import "BKUserConfigurationViewController.h"
+#import "BKUserConfigurationManager.h"
 #import "BKHosts.h"
 #import "BKPubKey.h"
 #import "Reachability.h"
@@ -35,7 +35,7 @@ static BKiCloudSyncHandler *sharedHandler = nil;
 @implementation BKiCloudSyncHandler
 
 + (id)sharedHandler{
-  if([BKUserConfigurationViewController userSettingsValueForKey:@"iCloudSync"]){
+  if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudSync"]){
     if(sharedHandler == nil){
       sharedHandler = [[self alloc] init];
     }
@@ -154,7 +154,7 @@ static BKiCloudSyncHandler *sharedHandler = nil;
     [self mergeHosts:results];
   }];
   
-  if([BKUserConfigurationViewController userSettingsValueForKey:@"iCloudKeysSync"]){
+  if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudKeysSync"]){
     CKQuery *pubKeyQuery = [[CKQuery alloc]initWithRecordType:@"BKPubKey" predicate:[NSPredicate predicateWithValue:YES]];
     [database performQuery:pubKeyQuery inZoneWithID:nil completionHandler:^(NSArray<CKRecord *> * _Nullable results, NSError * _Nullable error) {
       [self mergeKeys:results];

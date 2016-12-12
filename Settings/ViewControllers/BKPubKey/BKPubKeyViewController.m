@@ -34,7 +34,7 @@
 #import "BKPubKeyDetailsViewController.h"
 #import "BKPubKeyViewController.h"
 #import "BKiCloudSyncHandler.h"
-#import "BKUserConfigurationViewController.h"
+#import "BKUserConfigurationManager.h"
 @interface BKPubKeyViewController ()
 
 @end
@@ -48,7 +48,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  if([BKUserConfigurationViewController userSettingsValueForKey:@"iCloudKeysSync"]){
+  if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudKeysSync"]){
     [[BKiCloudSyncHandler sharedHandler]setMergeKeysCompletionBlock:^{
       dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
@@ -138,7 +138,7 @@
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     // Remove BKPubKey
     CKRecordID *recordId = [[BKPubKey.all objectAtIndex:indexPath.row]iCloudRecordId];
-    if([BKUserConfigurationViewController userSettingsValueForKey:@"iCloudKeysSync"]){
+    if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudKeysSync"]){
       if(recordId != nil){
         [[BKiCloudSyncHandler sharedHandler]deleteRecord:recordId ofType:BKiCloudRecordTypeKeys];
       }
