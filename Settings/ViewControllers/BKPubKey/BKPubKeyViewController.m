@@ -48,7 +48,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudKeysSync"]){
+  if([BKUserConfigurationManager userSettingsValueForKey:BKUserConfigiCloudKeys]){
     [[BKiCloudSyncHandler sharedHandler]setMergeKeysCompletionBlock:^{
       dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
@@ -138,7 +138,7 @@
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     // Remove BKPubKey
     CKRecordID *recordId = [[BKPubKey.all objectAtIndex:indexPath.row]iCloudRecordId];
-    if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudKeysSync"]){
+    if([BKUserConfigurationManager userSettingsValueForKey:BKUserConfigiCloudKeys]){
       if(recordId != nil){
         [[BKiCloudSyncHandler sharedHandler]deleteRecord:recordId ofType:BKiCloudRecordTypeKeys];
       }

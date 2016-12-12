@@ -25,7 +25,7 @@
 }
 
 - (void)setupUI{
-  [_toggleAppLock setOn:[BKUserConfigurationManager userSettingsValueForKey:@"autoLock"]];
+  [_toggleAppLock setOn:[BKUserConfigurationManager userSettingsValueForKey:BKUserConfigAutoLock]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,7 +44,7 @@
     }
     PasscodeLockViewController *lockViewController = [[PasscodeLockViewController alloc]initWithStateString:state];
     lockViewController.completionCallback = ^{
-      [BKUserConfigurationManager setUserSettingsValue:!_toggleAppLock.isOn forKey:@"autoLock"];
+      [BKUserConfigurationManager setUserSettingsValue:!_toggleAppLock.isOn forKey:BKUserConfigAutoLock];
       [[BKTouchIDAuthManager sharedManager]registerforDeviceLockNotif];
       [self setupUI];
     };

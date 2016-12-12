@@ -33,8 +33,8 @@
 - (void)viewWillAppear:(BOOL)animated{
   [super viewWillAppear:animated];
   self.userNameLabel.text = [BKDefaults defaultUserName];
-  self.iCloudSyncStatusLabel.text = [BKUserConfigurationManager userSettingsValueForKey:@"iCloudSync"] == true ? @"On" : @"Off";
-  self.autoLockStatusLabel.text = [BKUserConfigurationManager userSettingsValueForKey:@"autoLock"] == true ? @"On" : @"Off";
+  self.iCloudSyncStatusLabel.text = [BKUserConfigurationManager userSettingsValueForKey:BKUserConfigiCloud] == true ? @"On" : @"Off";
+  self.autoLockStatusLabel.text = [BKUserConfigurationManager userSettingsValueForKey:BKUserConfigAutoLock] == true ? @"On" : @"Off";
 }
 
 - (void)didReceiveMemoryWarning {

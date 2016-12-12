@@ -47,6 +47,11 @@ public class PasscodeLockViewController: UIViewController, PasscodeLockTypeDeleg
     
     private var shouldTryToAuthenticateWithBiometrics = true
   
+    let stateEnterPasscode = "EnterPassCode"
+    let stateChangePasscode = "ChangePasscode"
+    let stateRemovePasscode = "RemovePasscode"
+    let stateSetPasscode = "SetPasscode"
+  
   public convenience init(stateString: String){
     var state : LockState
     switch stateString {

@@ -33,8 +33,8 @@
 }
 
 - (void)setupUI{
-  [_toggleiCloudSync setOn:[BKUserConfigurationManager userSettingsValueForKey:@"iCloudSync"]];
-  [_toggleiCloudKeysSync setOn:[BKUserConfigurationManager userSettingsValueForKey:@"iCloudKeysSync"]];
+  [_toggleiCloudSync setOn:[BKUserConfigurationManager userSettingsValueForKey:BKUserConfigiCloud]];
+  [_toggleiCloudKeysSync setOn:[BKUserConfigurationManager userSettingsValueForKey:BKUserConfigiCloudKeys]];
 }
 
 #pragma mark - Action Method
@@ -45,7 +45,7 @@
     [self checkiCloudStatusAndToggle];
     [self.tableView reloadData];
   } else if (toggleSwitch == _toggleiCloudKeysSync){
-   [BKUserConfigurationManager setUserSettingsValue:_toggleiCloudKeysSync.isOn forKey:@"iCloudKeysSync"];
+   [BKUserConfigurationManager setUserSettingsValue:_toggleiCloudKeysSync.isOn forKey:BKUserConfigiCloudKeys];
   }
 }
 
@@ -69,7 +69,7 @@
          }];
          [[UIApplication sharedApplication] registerForRemoteNotifications];
        }
-       [BKUserConfigurationManager setUserSettingsValue:_toggleiCloudSync.isOn forKey:@"iCloudSync"];
+       [BKUserConfigurationManager setUserSettingsValue:_toggleiCloudSync.isOn forKey:BKUserConfigiCloud];
      }
    }];
 }

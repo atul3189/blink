@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const BKUserConfigiCloud;
+extern NSString * const BKUserConfigiCloudKeys;
+extern NSString * const BKUserConfigAutoLock;
+
 @interface BKUserConfigurationManager : NSObject
 + (void)setUserSettingsValue:(BOOL)value forKey:(NSString*)key;
 + (BOOL)userSettingsValueForKey:(NSString*)key;

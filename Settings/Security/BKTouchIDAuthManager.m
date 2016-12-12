@@ -25,7 +25,7 @@ static BOOL authRequired = NO;
 @implementation BKTouchIDAuthManager
 
 + (id)sharedManager{
-  if([BKUserConfigurationManager userSettingsValueForKey:@"autoLock"]){
+  if([BKUserConfigurationManager userSettingsValueForKey:BKUserConfigAutoLock]){
     if(sharedManager == nil){
       sharedManager = [[self alloc] init];
     }
@@ -74,23 +74,11 @@ static BOOL authRequired = NO;
 static void displayStatusChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)
 {
   // the "com.apple.springboard.lockcomplete" notification will always come after the "com.apple.springboard.lockstate" notification
-  
-  NSString *lockState = (__bridge NSString*)name;
-  NSLog(@"Darwin notification NAME = %@",name);
-  
-  if([lockState isEqualToString:@"com.apple.springboard.lockcomplete"])
-  {
-    NSLog(@"DEVICE LOCKED");
-  }
-  else
-  {
-    NSLog(@"LOCK STATUS CHANGED");
-  }
   authRequired = YES;
 }
 
 + (BOOL)requiresTouchAuth{
-  return authRequired && [BKUserConfigurationManager userSettingsValueForKey:@"autoLock"];
+  return authRequired && [BKUserConfigurationManager userSettingsValueForKey:BKUserConfigAutoLock];
 }
 
 - (void)authenticateUser{

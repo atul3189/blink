@@ -8,6 +8,10 @@
 
 #import "BKUserConfigurationManager.h"
 
+NSString * const BKUserConfigiCloud = @"iCloudSync";
+NSString * const BKUserConfigiCloudKeys = @"iCloudKeysSync";
+NSString * const BKUserConfigAutoLock = @"autoLock";
+
 @implementation BKUserConfigurationManager
 
 + (void)setUserSettingsValue:(BOOL)value forKey:(NSString*)key{

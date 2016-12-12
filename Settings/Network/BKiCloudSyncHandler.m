@@ -35,7 +35,7 @@ static BKiCloudSyncHandler *sharedHandler = nil;
 @implementation BKiCloudSyncHandler
 
 + (id)sharedHandler{
-  if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudSync"]){
+  if([BKUserConfigurationManager userSettingsValueForKey:BKUserConfigiCloud]){
     if(sharedHandler == nil){
       sharedHandler = [[self alloc] init];
     }
@@ -154,7 +154,7 @@ static BKiCloudSyncHandler *sharedHandler = nil;
     [self mergeHosts:results];
   }];
   
-  if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudKeysSync"]){
+  if([BKUserConfigurationManager userSettingsValueForKey:BKUserConfigiCloudKeys]){
     CKQuery *pubKeyQuery = [[CKQuery alloc]initWithRecordType:@"BKPubKey" predicate:[NSPredicate predicateWithValue:YES]];
     [database performQuery:pubKeyQuery inZoneWithID:nil completionHandler:^(NSArray<CKRecord *> * _Nullable results, NSError * _Nullable error) {
       [self mergeKeys:results];

@@ -106,7 +106,7 @@
       // Create and return
       SshRsa *key = _key ? _key : [[SshRsa alloc] initWithLength:length];
       _pubkey = [BKPubKey saveCard:_nameField.text privateKey:[key privateKeyWithPassphrase:_passphraseField.text] publicKey:[key publicKeyWithComment:_commentsField.text]];
-      if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudKeysSync"]){
+      if([BKUserConfigurationManager userSettingsValueForKey:BKUserConfigiCloudKeys]){
         [BKPubKey updateCard:_nameField.text  withId:_nameField.text withiCloudId:_pubkey.iCloudRecordId andLastModifiedTime:[NSDate date]];
         [[BKiCloudSyncHandler sharedHandler]checkForReachabilityAndSync:nil];
       }
