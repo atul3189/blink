@@ -12,5 +12,4 @@
 + (id)sharedManager;
 + (BOOL)requiresTouchAuth;
 - (void)registerforDeviceLockNotif;
-- (void)authenticateUserWithCallBack:(void (^) (BOOL)) completionBlock;
 @end

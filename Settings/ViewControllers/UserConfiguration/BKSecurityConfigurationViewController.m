@@ -9,6 +9,7 @@
 #import "BKSecurityConfigurationViewController.h"
 #import "Blink-swift.h"
 #import "BKUserConfigurationManager.h"
+#import "BKTouchIDAuthManager.h"
 
 @interface BKSecurityConfigurationViewController ()<UINavigationControllerDelegate>
 
@@ -44,6 +45,7 @@
     PasscodeLockViewController *lockViewController = [[PasscodeLockViewController alloc]initWithStateString:state];
     lockViewController.completionCallback = ^{
       [BKUserConfigurationManager setUserSettingsValue:!_toggleAppLock.isOn forKey:@"autoLock"];
+      [[BKTouchIDAuthManager sharedManager]registerforDeviceLockNotif];
       [self setupUI];
     };
     [self.navigationController pushViewController:lockViewController animated:YES];

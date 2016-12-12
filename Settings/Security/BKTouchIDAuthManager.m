@@ -25,7 +25,7 @@ static BOOL authRequired = NO;
 @implementation BKTouchIDAuthManager
 
 + (id)sharedManager{
-  if([BKUserConfigurationManager userSettingsValueForKey:@"iCloudSync"]){
+  if([BKUserConfigurationManager userSettingsValueForKey:@"autoLock"]){
     if(sharedManager == nil){
       sharedManager = [[self alloc] init];
     }
@@ -60,11 +60,11 @@ static BOOL authRequired = NO;
                                   NULL, // object
                                   CFNotificationSuspensionBehaviorDeliverImmediately);
   
-  [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+  [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 
-- (void)didEnterBackground:(NSNotification*)notification{
+- (void)didBecomeActive:(NSNotification*)notification{
   if([BKTouchIDAuthManager requiresTouchAuth]){
     [self authenticateUser];
   }
@@ -90,7 +90,7 @@ static void displayStatusChanged(CFNotificationCenterRef center, void *observer,
 }
 
 + (BOOL)requiresTouchAuth{
-  return authRequired;
+  return authRequired && [BKUserConfigurationManager userSettingsValueForKey:@"autoLock"];
 }
 
 - (void)authenticateUser{
