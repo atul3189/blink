@@ -33,7 +33,7 @@
 #import "MBProgressHUD/MBProgressHUD.h"
 #import "SmartKeys.h"
 #import "TermController.h"
-
+#import "BKDefaults.h"
 
 @interface SpaceController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate,
   UIGestureRecognizerDelegate, TermControlDelegate>
@@ -389,6 +389,56 @@
   // Close the Space if the terminal finishing is the current one.
   if (self.currentTerm == control) {
     [self closeCurrentSpace];
+  }
+}
+
+# pragma mark - Shortcut keys
+
+- (BOOL)canBecomeFirstResponder{
+  return YES;
+}
+
+- (UIKeyModifierFlags)shortCutModifierFlags{
+  NSDictionary *bkModifierMaps = @{
+                                    BKKeyboardModifierCtrl : [NSNumber numberWithInt:UIKeyModifierControl],
+                                    BKKeyboardModifierAlt : [NSNumber numberWithInt:UIKeyModifierAlternate],
+                                    BKKeyboardModifierCmd : [NSNumber numberWithInt:UIKeyModifierCommand],
+                                    BKKeyboardModifierCaps : [NSNumber numberWithInt:UIKeyModifierAlphaShift],
+                                    BKKeyboardModifierShift : [NSNumber numberWithInt:UIKeyModifierShift]
+                                    };
+  if([[BKDefaults keyboardFuncTriggers]objectForKey:@"Shortcuts"])
+  {
+    NSArray *shortCutTriggers = [[BKDefaults keyboardFuncTriggers]objectForKey:@"Shortcuts"];
+    UIKeyModifierFlags modifiers = 0;
+    for (NSString *trigger in shortCutTriggers) {
+      NSNumber *modifier = bkModifierMaps[trigger];
+      modifiers = modifiers | modifier.intValue;
+    }
+    return  modifiers;
+  }
+  return UIKeyModifierCommand;
+}
+
+- (NSArray<UIKeyCommand *> *)keyCommands
+{
+  return @[[UIKeyCommand keyCommandWithInput:@"n" modifierFlags:[self shortCutModifierFlags] action:@selector(openNewTerminalTab:)],
+           [UIKeyCommand keyCommandWithInput:UIKeyInputUpArrow modifierFlags:[self shortCutModifierFlags] action:@selector(switchToNextTab:)],
+           [UIKeyCommand keyCommandWithInput:UIKeyInputDownArrow modifierFlags:[self shortCutModifierFlags] action:@selector(switchToPreviousTab:)]];
+}
+
+- (void)openNewTerminalTab:(id)sender{
+    [self createShellAnimated:YES completion:nil];
+}
+
+- (void)switchToNextTab:(id)sender{
+  if(_pageControl.currentPage < _pageControl.numberOfPages){
+      [_pageControl setCurrentPage:_pageControl.currentPage+1];
+  }
+}
+
+- (void)switchToPreviousTab:(id)sender{
+  if(_pageControl.currentPage > 0 ){
+    [_pageControl setCurrentPage:_pageControl.currentPage-1];
   }
 }
 

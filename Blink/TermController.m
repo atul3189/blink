@@ -340,4 +340,40 @@ static NSDictionary *bkModifierMaps = nil;
   }
 }
 
+# pragma mark - Shortcut keys
+
+- (BOOL)canBecomeFirstResponder{
+  return YES;
+}
+
+- (UIKeyModifierFlags)shortCutModifierFlags{
+  NSDictionary *bkModifierMaps = @{
+                                   BKKeyboardModifierCtrl : [NSNumber numberWithInt:UIKeyModifierControl],
+                                   BKKeyboardModifierAlt : [NSNumber numberWithInt:UIKeyModifierAlternate],
+                                   BKKeyboardModifierCmd : [NSNumber numberWithInt:UIKeyModifierCommand],
+                                   BKKeyboardModifierCaps : [NSNumber numberWithInt:UIKeyModifierAlphaShift],
+                                   BKKeyboardModifierShift : [NSNumber numberWithInt:UIKeyModifierShift]
+                                   };
+  if([[BKDefaults keyboardFuncTriggers]objectForKey:@"Shortcuts"])
+  {
+    NSArray *shortCutTriggers = [[BKDefaults keyboardFuncTriggers]objectForKey:@"Shortcuts"];
+    UIKeyModifierFlags modifiers = 0;
+    for (NSString *trigger in shortCutTriggers) {
+      NSNumber *modifier = bkModifierMaps[trigger];
+      modifiers = modifiers | modifier.intValue;
+    }
+    return  modifiers;
+  }
+  return UIKeyModifierCommand;
+}
+
+- (NSArray<UIKeyCommand *> *)keyCommands
+{
+  return @[[UIKeyCommand keyCommandWithInput:@"v" modifierFlags:UIKeyModifierControl action:@selector(pasteClipboardContent:)]];
+}
+
+- (void)pasteClipboardContent:(id)sender{
+  NSString *str = [UIPasteboard generalPasteboard].string;
+  [self write:str];
+}
 @end
