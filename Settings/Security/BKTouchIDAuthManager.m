@@ -40,6 +40,7 @@ static BOOL authRequired = NO;
 - (instancetype)init{
   self = [super init];
   if(self){
+    authRequired = YES;
   }
   return self;
 }
