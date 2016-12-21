@@ -422,8 +422,8 @@
 - (NSArray<UIKeyCommand *> *)keyCommands
 {
   return @[[UIKeyCommand keyCommandWithInput:@"n" modifierFlags:[self shortCutModifierFlags] action:@selector(openNewTerminalTab:)],
-           [UIKeyCommand keyCommandWithInput:UIKeyInputUpArrow modifierFlags:[self shortCutModifierFlags] action:@selector(switchToNextTab:)],
-           [UIKeyCommand keyCommandWithInput:UIKeyInputDownArrow modifierFlags:[self shortCutModifierFlags] action:@selector(switchToPreviousTab:)]];
+           [UIKeyCommand keyCommandWithInput:@"[" modifierFlags:[self shortCutModifierFlags] action:@selector(switchToPreviousTab:)],
+           [UIKeyCommand keyCommandWithInput:@"]" modifierFlags:[self shortCutModifierFlags] action:@selector(switchToNextTab:)]];
 }
 
 - (void)openNewTerminalTab:(id)sender{
@@ -431,14 +431,36 @@
 }
 
 - (void)switchToNextTab:(id)sender{
-  if(_pageControl.currentPage < _pageControl.numberOfPages){
-      [_pageControl setCurrentPage:_pageControl.currentPage+1];
+  NSInteger idx = [_viewports indexOfObject:self.currentTerm];
+  if(idx < _pageControl.numberOfPages){
+    __weak typeof(self) weakSelf = self;
+    [_viewportsController setViewControllers:@[ _viewports[idx + 1] ]
+                                   direction:UIPageViewControllerNavigationDirectionReverse
+                                    animated:NO
+                                  completion:^(BOOL didComplete) {
+                                    // Remove viewport from the list after animation
+                                    if (didComplete) {
+                                      [weakSelf displayHUD];
+                                      [weakSelf.currentTerm.terminal performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0];
+                                    }
+                                  }];
   }
 }
 
 - (void)switchToPreviousTab:(id)sender{
-  if(_pageControl.currentPage > 0 ){
-    [_pageControl setCurrentPage:_pageControl.currentPage-1];
+  NSInteger idx = [_viewports indexOfObject:self.currentTerm];
+  if(idx > 0 ){
+    __weak typeof(self) weakSelf = self;
+    [_viewportsController setViewControllers:@[ _viewports[idx - 1] ]
+                                   direction:UIPageViewControllerNavigationDirectionReverse
+                                    animated:NO
+                                  completion:^(BOOL didComplete) {
+                                    // Remove viewport from the list after animation
+                                    if (didComplete) {
+                                      [weakSelf displayHUD];
+                                      [weakSelf.currentTerm.terminal performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0];
+                                    }
+                                  }];
   }
 }
 
