@@ -29,11 +29,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#define LOG_FIRST_RESPONDER NO
+
 #import "SpaceController.h"
 #import "MBProgressHUD/MBProgressHUD.h"
 #import "SmartKeys.h"
 #import "TermController.h"
 #import "BKDefaults.h"
+#import "UIResponder+FirstResponder.h"
 
 @interface SpaceController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate,
   UIGestureRecognizerDelegate, TermControlDelegate>
@@ -51,6 +54,7 @@
   NSLayoutConstraint *_topConstraint;
   UIPageControl *_pageControl;
   MBProgressHUD *_hud;
+  NSTimer *timer;
 }
 
 #pragma mark Setup
@@ -90,6 +94,15 @@
 					   selector:@selector(applicationWillTerminate:)
 					       name:UIApplicationWillTerminateNotification
 					     object:app];
+  
+  if(LOG_FIRST_RESPONDER){
+    timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(printFirstResponder) userInfo:nil repeats:YES];
+  }
+}
+
+- (void)printFirstResponder{
+  id firstResponder = [self currentFirstResponder];
+  NSLog(@"FR%@",firstResponder);
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
