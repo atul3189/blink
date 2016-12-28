@@ -39,6 +39,7 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 
+#import "BKDefaults.h"
 #import "BKHosts.h"
 #import "BKPubKey.h"
 #import "SSHSession.h"
@@ -53,7 +54,8 @@
 
 static const char *usage_format =
   "usage: ssh [options] [user@]hostname [command]\r\n"
-  "[-i identity_file] [-p port] [-t request_tty] [-v verbose]\r\n"
+  "[-l login_name] [-i identity_file] [-p port]\r\n" 
+  "[-t request_tty] [-v verbose]\r\n"
   "\r\n";
 
 typedef struct {
@@ -168,7 +170,7 @@ static void kbd_callback(const char *name, int name_len,
   optind = 1;
 
   while (1) {
-    int c = getopt_long(argc, argv, "p:i:tv", NULL, NULL);
+    int c = getopt_long(argc, argv, "p:i:tvl:", NULL, NULL);
     if (c == -1) {
       break;
     }
@@ -188,6 +190,9 @@ static void kbd_callback(const char *name, int name_len,
 	break;
       case 't':
 	_options.request_tty = REQUEST_TTY_FORCE;
+	break;
+      case 'l':
+	_options.user = optarg;
 	break;
       default:
 	optind = 0;
@@ -214,7 +219,8 @@ static void kbd_callback(const char *name, int name_len,
   [self processHostSettings];
 
   if (!_options.user) {
-    return [self dieMsg:@"Missing user to establish connection."];
+    // If no user provided, use the default
+    _options.user = [[BKDefaults defaultUserName] UTF8String];
   }
 
   NSMutableArray *command_args = [[NSMutableArray alloc] init];
@@ -706,6 +712,11 @@ static void kbd_callback(const char *name, int name_len,
   [self debugMsg:@"ssh_session_start: channel created"];
 
   if (_tty_flag) {
+    // [self debugMsg:[NSString stringWithFormat:@"Sending env LC_CTYPE = UTF-8"]];    
+    // while ((rc = libssh2_channel_setenv(_channel, "LC_CTYPE", "UTF-8")) == LIBSSH2_ERROR_EAGAIN) {
+    //   waitsocket(_sock, _session);
+    // }
+
     while ((rc = libssh2_channel_request_pty(_channel, TERM)) == LIBSSH2_ERROR_EAGAIN) {
       waitsocket(_sock, _session);
     }
@@ -854,7 +865,7 @@ static void kbd_callback(const char *name, int name_len,
       char c;
       ssize_t n;
 
-      if ((n = read(fileno(_stream.in), &c, 1)) <= 0) {
+      if ((n = read(fileno(_stream.control.termin), &c, 1)) <= 0) {
 	break;
       }
 

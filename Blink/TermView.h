@@ -36,7 +36,7 @@ extern NSString * const TermViewCtrlSeq;
 extern NSString * const TermViewEscSeq;
 extern NSString * const TermViewCursorFuncSeq;
 extern NSString * const TermViewFFuncSeq;
-
+extern NSString * const TermViewAutoRepeateSeq;
 
 @protocol TerminalDelegate <NSObject>
 
@@ -69,5 +69,6 @@ extern NSString * const TermViewFFuncSeq;
 - (void)assignFunction:(NSString *)function toTriggers:(UIKeyModifierFlags)triggers;
 - (void)loadTerminalThemeJS:(NSString *)themeContent;
 - (void)loadTerminalFont:(NSString *)familyName fromCSS:(NSString *)cssPath;
+- (void)loadTerminalFont:(NSString *)familyName cssFontContent:(NSString *)cssContent;
 
 @end

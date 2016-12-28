@@ -32,12 +32,15 @@
 #import "BKThemeCreateViewController.h"
 #import "BKSettingsFileDownloader.h"
 #import "BKTheme.h"
+#import "BKLinkActions.h"
+
 
 @interface BKThemeCreateViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *importButton;
 @property (weak, nonatomic) IBOutlet UITextField *urlTextField;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITableViewCell *galleryLinkCell;
 @property (strong, nonatomic) NSData *tempFileData;
 @property (assign, nonatomic) BOOL downloadCompleted;
 
@@ -117,7 +120,7 @@
                             }
                           }];
   } else {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"URL error" message:@"Please enter valid .js URL" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"URL error" message:@"Themes must be .JS configuration files. Please open the gallery for more information." preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:ok];
     [self presentViewController:alertController animated:YES completion:nil];
@@ -178,6 +181,15 @@
   UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
   [alertController addAction:ok];
   [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  UITableViewCell *clickedCell = [self.tableView cellForRowAtIndexPath:indexPath];
+
+  if ([clickedCell isEqual:self.galleryLinkCell]) {
+    [BKLinkActions sendToGitHub:@"themes"];
+  } 
 }
 
 @end
