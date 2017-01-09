@@ -34,7 +34,7 @@
 #import "SmartKeysController.h"
 #import "TermController.h"
 #import "ScreenController.h"
-
+#import "BKUserConfigurationManager.h"
 
 @interface SpaceController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate,
   UIGestureRecognizerDelegate, TermControlDelegate>
@@ -442,27 +442,28 @@
 
 - (void)setKbdCommands
 {
+  [BKUserConfigurationManager shortCutModifierFlags];
   _kbdCommands = [[NSMutableArray alloc] initWithObjects:
-   [UIKeyCommand keyCommandWithInput: @"t" modifierFlags: UIKeyModifierCommand
+   [UIKeyCommand keyCommandWithInput: @"n" modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
                               action: @selector(newShell:)
                 discoverabilityTitle: @"New shell"],
-   [UIKeyCommand keyCommandWithInput: @"w" modifierFlags: UIKeyModifierCommand
+   [UIKeyCommand keyCommandWithInput: @"w" modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
                               action: @selector(closeShell:)
                 discoverabilityTitle: @"Close shell"],
-   [UIKeyCommand keyCommandWithInput: @"]" modifierFlags: UIKeyModifierCommand | UIKeyModifierShift
+   [UIKeyCommand keyCommandWithInput: @"]" modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
                               action: @selector(nextShell:)
                 discoverabilityTitle: @"Next shell"],
-   [UIKeyCommand keyCommandWithInput: @"[" modifierFlags: UIKeyModifierCommand | UIKeyModifierShift
+   [UIKeyCommand keyCommandWithInput: @"[" modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
                               action: @selector(prevShell:)
                 discoverabilityTitle: @"Previous shell"],
 
-   [UIKeyCommand keyCommandWithInput: @"o" modifierFlags: UIKeyModifierCommand
+   [UIKeyCommand keyCommandWithInput: @"o" modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
                               action: @selector(otherScreen:)
                 discoverabilityTitle: @"Other Screen"],
-   [UIKeyCommand keyCommandWithInput: @"o" modifierFlags: UIKeyModifierCommand | UIKeyModifierShift
+   [UIKeyCommand keyCommandWithInput: @"o" modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
                               action: @selector(moveToOtherScreen:)
                 discoverabilityTitle: @"Move schell to other Screen"],
-   [UIKeyCommand keyCommandWithInput: @"," modifierFlags: UIKeyModifierCommand | UIKeyModifierShift
+   [UIKeyCommand keyCommandWithInput: @"," modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
                               action: @selector(showConfig:)
                 discoverabilityTitle: @"Show config"],
   nil];
@@ -472,7 +473,7 @@
     NSString *input = [NSString stringWithFormat:@"%li", (long)keyN];
     NSString *title = [NSString stringWithFormat:@"Switch to shell %li", (long)i];
     UIKeyCommand * cmd = [UIKeyCommand keyCommandWithInput: input
-                                             modifierFlags: UIKeyModifierCommand | UIKeyModifierAlternate
+                                             modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
                                                     action: @selector(switchToShellN:)
                                       discoverabilityTitle: title];
     
