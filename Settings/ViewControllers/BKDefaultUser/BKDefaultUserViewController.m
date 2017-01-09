@@ -61,7 +61,8 @@
 
 - (void)unwindForSegue:(UIStoryboardSegue *)unwindSegue towardsViewController:(UIViewController *)subsequentVC{
   if(self.userNameField.text != nil && ![self.userNameField.text isEqualToString:@""]){
-    [BKDefaults setDefaultUserName:self.userNameField.text];
+    NSString *sanitisedName = [self.userNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    [BKDefaults setDefaultUserName:sanitisedName];
     [BKDefaults saveDefaults];
   }
 }
