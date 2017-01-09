@@ -444,7 +444,7 @@
 {
   [BKUserConfigurationManager shortCutModifierFlags];
   _kbdCommands = [[NSMutableArray alloc] initWithObjects:
-   [UIKeyCommand keyCommandWithInput: @"n" modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
+   [UIKeyCommand keyCommandWithInput: @"t" modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
                               action: @selector(newShell:)
                 discoverabilityTitle: @"New shell"],
    [UIKeyCommand keyCommandWithInput: @"w" modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
