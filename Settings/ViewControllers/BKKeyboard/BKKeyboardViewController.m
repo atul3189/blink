@@ -245,11 +245,11 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
 
 - (IBAction)unwindFromKeyboardFuncTriggers:(UIStoryboardSegue *)sender
 {
-  BKKeyboardFuncTriggersViewController *vc = sender.sourceViewController;
+  UIViewController *vc = sender.sourceViewController;
   UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:_currentSelectionIdx];
   
   NSString *function = cell.textLabel.text;
-  NSArray *trigger = [vc selectedObjects];
+  NSArray *trigger = [vc valueForKey:@"selectedObjects"];
   
   [BKDefaults setTriggers:trigger forFunction:function];
   [BKDefaults saveDefaults];

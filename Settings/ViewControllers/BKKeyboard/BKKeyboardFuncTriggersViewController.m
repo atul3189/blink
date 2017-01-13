@@ -50,7 +50,11 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
   if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-    [self performSegueWithIdentifier:@"unwindFromKeyboardFuncTriggers" sender:self];
+    if([self.function isEqualToString:(NSString*)BKKeyboardFuncShortcutTriggers]){
+      [self performSegueWithIdentifier:@"unwindFromKeyboardShortcutsFuncTriggers" sender:self];
+    } else {
+      [self performSegueWithIdentifier:@"unwindFromKeyboardFuncTriggers" sender:self];
+    }
   }
   [super viewWillDisappear:animated];
 }
@@ -80,26 +84,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  if([self.function isEqualToString:(NSString*)BKKeyboardFuncShortcutTriggers]){
-    return 2;
-  }else{
-    return 1;
-  }
+  return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  if(section == 0){
-    return _items.count;
-  }else{
-    return 1;
-  }
+  return _items.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  if(indexPath.section == 0){
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"keyModifierCell" forIndexPath:indexPath];
     cell.textLabel.text = [_items objectAtIndex:indexPath.row];
     if ([self.selectedRows containsObject:cell.textLabel.text]) {
@@ -108,27 +103,15 @@
       [cell setAccessoryType:UITableViewCellAccessoryNone];
     }
     return cell;
-  } else {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"descriptionCell" forIndexPath:indexPath];
-    return cell;
-  }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-  if(indexPath.section == 0){
-    return 44.0;
-  }else{
-    return 88.0;
-  }
+  return 44.0;
 }
 
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-  if(section == 0){
-    return @"TRIGGERS";
-  }else{
-    return @"SHORTCUTS HELP";
-  }
+  return @"TRIGGERS";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
