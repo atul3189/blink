@@ -186,6 +186,15 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
   return nil;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  if([cell.textLabel.text isEqualToString:(NSString*)BKKeyboardFuncShortcutTriggers]){
+    [self performSegueWithIdentifier:@"keyboardShortcutsSegue" sender:self];
+  } else if ([cell.textLabel.text isEqualToString:(NSString*)BKKeyboardFuncFTriggers] || [cell.textLabel.text isEqualToString:(NSString*)BKKeyboardFuncCursorTriggers]) {
+    [self performSegueWithIdentifier:@"selectTriggersSegue" sender:self];
+  }
+}
+
 #pragma mark - Actions
 - (IBAction)capsAsEscChanged:(UISwitch *)sender
 {
@@ -213,7 +222,7 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
   if ([segue.identifier isEqualToString:@"keyboardModifier"]) {
     BKKeyboardModifierViewController *modifier = segue.destinationViewController;
     [modifier performInitialSelection:[_keyboardMapping objectForKey:[self selectedObject]]];
-  } else if ([segue.identifier isEqualToString:@"keyboardFuncTriggers"]) {
+  } else if ([segue.identifier isEqualToString:@"selectTriggersSegue"]) {
     BKKeyboardFuncTriggersViewController *vc = segue.destinationViewController;
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:_currentSelectionIdx];
     vc.function = cell.textLabel.text;
@@ -265,6 +274,8 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
               }];
   
 }
+
+
 
 
 @end

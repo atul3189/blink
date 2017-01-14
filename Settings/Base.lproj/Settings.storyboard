@@ -1365,9 +1365,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="geg-3D-Cnz" kind="show" id="RbI-ef-BCe"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
@@ -1380,6 +1377,8 @@
                     <connections>
                         <outlet property="capsAsEscSwitch" destination="36q-3k-F54" id="62w-1s-LUB"/>
                         <outlet property="shiftAsEscSwitch" destination="KOT-ej-LV9" id="veT-Ug-U8C"/>
+                        <segue destination="IfA-0a-fov" kind="show" identifier="selectTriggersSegue" id="dlZ-04-Kay"/>
+                        <segue destination="geg-3D-Cnz" kind="show" identifier="keyboardShortcutsSegue" id="GMX-Xp-kGO"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pmZ-mt-jCF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1443,7 +1442,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j4a-94-VX5" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="1h4-w0-hJP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2645" y="1189"/>
+            <point key="canvasLocation" x="2690" y="1099"/>
         </scene>
         <!--Keyboard Shortcuts View Controller-->
         <scene sceneID="ZRO-1z-XgC">
@@ -1458,18 +1457,18 @@
                                 <rect key="frame" x="0.0" y="120" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="YtR-Cs-fnj" id="xnU-ZW-QpO">
-                                    <frame key="frameInset" width="342" height="43"/>
+                                    <frame key="frameInset" width="342" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Shortcuts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VAm-Qa-Pu1">
-                                            <frame key="frameInset" minX="15" minY="12" width="71" height="20"/>
+                                            <frame key="frameInset" minX="15" minY="12" width="71" height="19.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Modifiers" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bQd-vF-G8q">
-                                            <frame key="frameInset" minX="272" minY="12" width="68" height="20"/>
+                                            <frame key="frameInset" minX="272" minY="12" width="68" height="19.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1485,18 +1484,18 @@
                                 <rect key="frame" x="0.0" y="164" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="yfN-FC-wBi" id="HO8-bj-48u">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Shortcuts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5J7-F1-Qtf">
-                                            <frame key="frameInset" minX="15" minY="12" width="71" height="20"/>
+                                            <frame key="frameInset" minX="15" minY="12" width="71" height="19.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Modifiers" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="T1f-uN-Kuy">
-                                            <frame key="frameInset" minX="292" minY="12" width="68" height="20"/>
+                                            <frame key="frameInset" minX="292" minY="12" width="68" height="19.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1518,7 +1517,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nbg-hS-yu6" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="VKx-Gl-LYN" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3362" y="1184"/>
+            <point key="canvasLocation" x="3444" y="1215"/>
         </scene>
         <!--Add a new theme-->
         <scene sceneID="EMy-fs-l8I">
@@ -1758,7 +1757,7 @@
             <objects>
                 <navigationController storyboardIdentifier="NavSettingsController" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="formSheet" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hAE-Bj-MeI" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="a12-bl-P5f">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a12-bl-P5f">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2233,6 +2232,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="y9I-rB-ZKT"/>
+        <segue reference="dlZ-04-Kay"/>
         <segue reference="dMC-e1-GtW"/>
     </inferredMetricsTieBreakers>
 </document>
