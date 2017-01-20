@@ -95,30 +95,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"keyModifierCell" forIndexPath:indexPath];
-    cell.textLabel.text = [_items objectAtIndex:indexPath.row];
-    if ([self.selectedRows containsObject:cell.textLabel.text]) {
-      [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-    } else {
-      [cell setAccessoryType:UITableViewCellAccessoryNone];
-    }
-    return cell;
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"keyModifierCell" forIndexPath:indexPath];
+  cell.textLabel.text = [_items objectAtIndex:indexPath.row];
+  if ([self.selectedRows containsObject:cell.textLabel.text]) {
+    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+  } else {
+    [cell setAccessoryType:UITableViewCellAccessoryNone];
+  }
+  return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-  return 44.0;
-}
-
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-  return @"TRIGGERS";
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-  
+
   // Unselect object if already selected. Select otherwise
   NSUInteger idx = [self.selectedRows indexOfObject:cell.textLabel.text];
   if (idx != NSNotFound) {
