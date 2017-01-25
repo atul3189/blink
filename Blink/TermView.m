@@ -181,10 +181,11 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
 }
 @end
 
-@interface TermView () <UIKeyInput, UIGestureRecognizerDelegate, WKScriptMessageHandler>
+@interface TermView () <UIKeyInput, UIGestureRecognizerDelegate, WKScriptMessageHandler, UITextViewDelegate>
 @property UITapGestureRecognizer *tapBackground;
 @property UILongPressGestureRecognizer *longPressBackground;
 @property UIPinchGestureRecognizer *pinchGesture;
+@property (nonatomic) UITextView *textView;
 @end
 
 @implementation TermView {
@@ -203,6 +204,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
   NSMutableDictionary *_functionKeys;
   NSMutableDictionary *_functionTriggerKeys;
   NSString *_specialFKeysRow;
+  BOOL isCharCleared;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -216,6 +218,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
 
     [self addWebView];
     [self resetDefaultControlKeys];
+    [self performSelector:@selector(addIntermediateTextView) withObject:nil afterDelay:0.5];
   }
 
   return self;
@@ -245,6 +248,32 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
   [_webView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
   [_webView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
   [_webView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
+}
+
+- (void)addIntermediateTextView
+{
+  dispatch_async(dispatch_get_main_queue(), ^{
+    self.textView = [[UITextView alloc]init];
+    self.textView.frame = CGRectMake(100, 100, 100, 40);
+    [self.textView setDelegate:self];
+
+    UITextInputAssistantItem *item = self.textView.inputAssistantItem;
+    item.leadingBarButtonGroups = @[];
+    item.trailingBarButtonGroups = @[];
+    
+    self.textView.keyboardAppearance = UIKeyboardAppearanceDark;
+    self.textView.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.textView.spellCheckingType = UITextSpellCheckingTypeNo;
+    self.textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    
+    [self addSubview:self.textView];
+    [self.textView becomeFirstResponder];
+    
+    
+    self.textView.inputAccessoryView = _smartKeys.view;
+
+
+  });
 }
 
 - (void)addGestures
@@ -285,6 +314,48 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
   _functionTriggerKeys = [[NSMutableDictionary alloc] init];
   _specialFKeysRow = @"1234567890";
   [self setKbdCommands];
+}
+
+#pragma mark - UITextView Delegates
+
+-(void)setMarkedTextRange:(UITextRange *)markedTextRange{
+  
+}
+
+- (BOOL)containsEnglishAlphabet:(NSString*)string{
+  NSString *myRegex = @"[A-Za-z]*";
+  NSPredicate *myTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", myRegex];
+  BOOL valid = [myTest evaluateWithObject:string];
+  return valid;
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+//  textView.keyboardAppearance = UIKeyboardAppearanceDark;
+  if(self.textView.markedTextRange != nil){
+    //IME Mode
+    self.textView.hidden = NO;
+//    NSInteger startOffset = [self.textView offsetFromPosition:self.textView.beginningOfDocument toPosition:self.textView.markedTextRange.start];
+//    NSInteger endOffset = [self.textView offsetFromPosition:self.textView.beginningOfDocument toPosition:self.textView.markedTextRange.end];
+    
+    if(!isCharCleared){
+      [self deleteBackward];
+      isCharCleared = YES;
+    } else if(![self containsEnglishAlphabet:text] || text.length > 1){
+      [self insertText:[text copy]];
+        self.textView.text = nil;
+    }
+  }else{
+    //Normal Mode
+    isCharCleared = NO;
+    self.textView.hidden = YES;
+      self.textView.text = @"";
+    if([text isEqualToString:@""]){
+      [self deleteBackward];
+    }else{
+      [self insertText:text];
+    }
+  }
+  return YES;
 }
 
 #pragma mark Terminal Control
@@ -519,8 +590,10 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
   _smartKeys.textInputDelegate = self;
   cover.hidden = YES;
 
-  [_webView evaluateJavaScript:@"focusTerm();" completionHandler:nil];
-  return [super becomeFirstResponder];
+//  [_webView evaluateJavaScript:@"focusTerm();" completionHandler:nil];
+  [self.textView becomeFirstResponder];
+  return YES;
+//  return [super becomeFirstResponder];
 }
 
 - (BOOL)resignFirstResponder
