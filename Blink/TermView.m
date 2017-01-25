@@ -268,10 +268,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
     
     [self addSubview:self.textView];
     [self.textView becomeFirstResponder];
-    
-    
     self.textView.inputAccessoryView = _smartKeys.view;
-
 
   });
 }
@@ -316,11 +313,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
   [self setKbdCommands];
 }
 
-#pragma mark - UITextView Delegates
-
--(void)setMarkedTextRange:(UITextRange *)markedTextRange{
-  
-}
+#pragma mark - IME Mode support Methods
 
 - (BOOL)containsEnglishAlphabet:(NSString*)string{
   NSString *myRegex = @"[A-Za-z]*";
@@ -330,13 +323,9 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-//  textView.keyboardAppearance = UIKeyboardAppearanceDark;
   if(self.textView.markedTextRange != nil){
     //IME Mode
     self.textView.hidden = NO;
-//    NSInteger startOffset = [self.textView offsetFromPosition:self.textView.beginningOfDocument toPosition:self.textView.markedTextRange.start];
-//    NSInteger endOffset = [self.textView offsetFromPosition:self.textView.beginningOfDocument toPosition:self.textView.markedTextRange.end];
-    
     if(!isCharCleared){
       [self deleteBackward];
       isCharCleared = YES;
