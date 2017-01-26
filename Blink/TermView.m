@@ -254,7 +254,8 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
 {
   dispatch_async(dispatch_get_main_queue(), ^{
     self.textView = [[UITextView alloc]init];
-    self.textView.frame = CGRectMake(100, 100, 100, 40);
+    self.textView.frame = CGRectMake(100, 100, 100, 14);
+    self.textView.hidden = YES;
     [self.textView setDelegate:self];
 
     UITextInputAssistantItem *item = self.textView.inputAssistantItem;
@@ -329,9 +330,11 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
     if(!isCharCleared){
       [self deleteBackward];
       isCharCleared = YES;
+      [_webView evaluateJavaScript:@"currentCursorPosition();" completionHandler:nil];  
     } else if(![self containsEnglishAlphabet:text] || text.length > 1){
       [self insertText:[text copy]];
         self.textView.text = nil;
+        self.textView.hidden = YES;
     }
   }else{
     //Normal Mode
@@ -417,7 +420,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
   NSDictionary *sentData = (NSDictionary *)message.body;
   NSString *operation = sentData[@"op"];
   NSDictionary *data = sentData[@"data"];
-
+  NSLog(@"%@ %@",operation, data);
   if ([operation isEqualToString:@"sigwinch"]) {
     if ([self.delegate respondsToSelector:@selector(updateTermRows:Cols:)]) {
       [self.delegate updateTermRows:data[@"rows"] Cols:data[@"columns"]];
@@ -432,6 +435,10 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
     }
   } else if ([operation isEqualToString:@"copy"]) {
     [[UIPasteboard generalPasteboard] setString:data[@"content"]];
+  } else if ([operation isEqualToString:@"currentPosition"]) {
+    float currentXPos = [[data objectForKey:@"currentXPos"]floatValue];
+    float currentYPos = [[data objectForKey:@"currentYPos"]floatValue];
+    self.textView.frame = CGRectMake(currentXPos, currentYPos, self.textView.frame.size.width, self.textView.frame.size.height);
   }
 }
 

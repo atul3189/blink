@@ -76,6 +76,10 @@ var clear = function() {
   t.clear();
 }
 
+var currentCursorPosition = function() {
+  window.webkit.messageHandlers.interOp.postMessage({"op": "currentPosition", "data":{"currentXPos":t.cursorNode_.offsetLeft, "currentYPos":t.cursorNode_.offsetTop }});
+};
+
 hterm.copySelectionToClipboard = function(document) {
     window.webkit.messageHandlers.interOp.postMessage({"op": "copy", "data":{"content": document.getSelection().toString()}});
 }
