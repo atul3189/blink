@@ -755,7 +755,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
   [f addObject:[UIKeyCommand keyCommandWithInput:UIKeyInputEscape modifierFlags:0 action:@selector(escSeq:)]];
 
   [f addObject:[UIKeyCommand keyCommandWithInput: @"v" modifierFlags: [BKUserConfigurationManager shortCutModifierFlags]
-                                          action: @selector(paste:)
+                                          action: @selector(yank:)
                             discoverabilityTitle: @"Paste"]];
   return f;
 }
