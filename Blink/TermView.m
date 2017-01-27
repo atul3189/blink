@@ -254,7 +254,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
 {
   dispatch_async(dispatch_get_main_queue(), ^{
     self.textView = [[UITextView alloc]init];
-    self.textView.frame = CGRectMake(100, 100, 100, 14);
+    self.textView.frame = CGRectMake(100, 100, 20, 14);
     self.textView.hidden = YES;
     [self.textView setDelegate:self];
 
@@ -328,6 +328,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
     //IME Mode
     self.textView.hidden = NO;
     if(!isCharCleared){
+      textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, 20, textView.frame.size.height);
       [self deleteBackward];
       isCharCleared = YES;
       [_webView evaluateJavaScript:@"currentCursorPosition();" completionHandler:nil];  
@@ -348,6 +349,20 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
     }
   }
   return YES;
+}
+
+- (void)textViewDidChangeSelection:(UITextView *)textView{
+  float widthOfString = [self widthOfString:textView.text withFont:textView.font];
+  if(textView.frame.size.width-15 < widthOfString){
+    textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, textView.frame.size.width+10, textView.frame.size.height);
+  }else if(textView.frame.size.width > widthOfString + 10){
+    textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, textView.frame.size.width-10, textView.frame.size.height);
+  }
+}
+
+- (CGFloat)widthOfString:(NSString *)string withFont:(UIFont *)font {
+  NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+  return [[[NSAttributedString alloc] initWithString:string attributes:attributes] size].width;
 }
 
 #pragma mark Terminal Control
@@ -438,7 +453,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
   } else if ([operation isEqualToString:@"currentPosition"]) {
     float currentXPos = [[data objectForKey:@"currentXPos"]floatValue];
     float currentYPos = [[data objectForKey:@"currentYPos"]floatValue];
-    self.textView.frame = CGRectMake(currentXPos, currentYPos, self.textView.frame.size.width, self.textView.frame.size.height);
+    self.textView.frame = CGRectMake(currentXPos-5, currentYPos, self.textView.frame.size.width, self.textView.frame.size.height);
   }
 }
 
