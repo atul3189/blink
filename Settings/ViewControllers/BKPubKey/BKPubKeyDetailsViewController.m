@@ -37,6 +37,8 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *name;
 @property (weak, nonatomic) IBOutlet UITextField *comments;
+@property (weak, nonatomic) IBOutlet UIView *toastView;
+@property (weak, nonatomic) IBOutlet UILabel *toastLabel;
 @end
 
 @implementation BKPubKeyDetailsViewController
@@ -85,12 +87,14 @@
 */
 - (IBAction)copyPublicKey:(id)sender
 {
+  [self showToastWithText:@"Public key copied"];
   UIPasteboard *pb = [UIPasteboard generalPasteboard];
   [pb setString:_pubkey.publicKey];
 }
 
 - (IBAction)copyPrivateKey:(id)sender
 {
+  [self showToastWithText:@"Private key copied"];
   UIPasteboard *pb = [UIPasteboard generalPasteboard];
   [pb setString:_pubkey.privateKey];
 }
@@ -117,6 +121,25 @@
       [BKPubKey saveIDS];
     }
   }
+}
+
+# pragma mark - Toast View Methods
+
+- (void)showToastWithText:(NSString*)text{
+  self.toastLabel.text = text;
+  [UIView animateWithDuration:1.0 animations:^{
+    self.toastView.alpha = 1.0;
+  } completion:^(BOOL finished) {
+    [self hideToast];
+  }];
+}
+
+- (void)hideToast{
+  [UIView animateWithDuration:1.0 animations:^{
+    self.toastView.alpha = 0.0;
+  } completion:^(BOOL finished) {
+    
+  }];
 }
 
 @end
