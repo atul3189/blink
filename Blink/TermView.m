@@ -254,7 +254,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
 {
   dispatch_async(dispatch_get_main_queue(), ^{
     self.textView = [[UITextView alloc]init];
-    self.textView.frame = CGRectMake(100, 100, 20, 14);
+    self.textView.frame = CGRectMake(100, 100, 50, 14);
     self.textView.hidden = YES;
     [self.textView setDelegate:self];
 
@@ -328,7 +328,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
     //IME Mode
     self.textView.hidden = NO;
     if(!isCharCleared){
-      textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, 20, textView.frame.size.height);
+      textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, 50, textView.frame.size.height);
       [self deleteBackward];
       isCharCleared = YES;
       [_webView evaluateJavaScript:@"currentCursorPosition();" completionHandler:nil];  
