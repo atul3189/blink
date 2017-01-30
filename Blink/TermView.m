@@ -263,8 +263,8 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
     item.trailingBarButtonGroups = @[];
     
     self.textView.keyboardAppearance = UIKeyboardAppearanceDark;
-    self.textView.autocorrectionType = UITextAutocorrectionTypeYes;
-    self.textView.spellCheckingType = UITextSpellCheckingTypeYes;
+    self.textView.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.textView.spellCheckingType = UITextSpellCheckingTypeNo;
     self.textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     [self addSubview:self.textView];
