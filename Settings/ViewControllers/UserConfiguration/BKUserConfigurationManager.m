@@ -35,6 +35,7 @@
 NSString *const BKUserConfigiCloud = @"iCloudSync";
 NSString *const BKUserConfigiCloudKeys = @"iCloudKeysSync";
 NSString *const BKUserConfigAutoLock = @"autoLock";
+NSString *const BKUserConfigIMEMode = @"IMEMode";
 
 @implementation BKUserConfigurationManager
 

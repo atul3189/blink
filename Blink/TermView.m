@@ -324,7 +324,7 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-  if(self.textView.markedTextRange != nil){
+  if(self.textView.markedTextRange != nil && [BKUserConfigurationManager userSettingsValueForKey:BKUserConfigIMEMode]){
     //IME Mode
     self.textView.hidden = NO;
     if(!isCharCleared){
@@ -353,10 +353,10 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
 
 - (void)textViewDidChangeSelection:(UITextView *)textView{
   float widthOfString = [self widthOfString:textView.text withFont:textView.font];
-  if(textView.frame.size.width-15 < widthOfString){
-    textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, textView.frame.size.width+10, textView.frame.size.height);
-  }else if(textView.frame.size.width > widthOfString + 10){
-    textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, textView.frame.size.width-10, textView.frame.size.height);
+  if(textView.frame.size.width-25 < widthOfString){
+    textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, textView.frame.size.width+40, textView.frame.size.height);
+  }else if(textView.frame.size.width > widthOfString + 40){
+    textView.frame = CGRectMake(textView.frame.origin.x, textView.frame.origin.y, textView.frame.size.width-25, textView.frame.size.height);
   }
 }
 

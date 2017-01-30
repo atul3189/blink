@@ -34,6 +34,7 @@
 #import "BKKeyboardFuncTriggersViewController.h"
 #import "BKKeyboardModifierViewController.h"
 #import "BKSettingsNotifications.h"
+#import "BKUserConfigurationManager.h"
 
 #define KEY_LABEL_TAG 1001
 #define VALUE_LABEL_TAG 1002
@@ -50,7 +51,7 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
 @property (nonatomic, strong) NSMutableDictionary *keyboardMapping;
 @property (strong, nonatomic) IBOutlet UISwitch *capsAsEscSwitch;
 @property (strong, nonatomic) IBOutlet UISwitch *shiftAsEscSwitch;
-
+@property (strong, nonatomic) IBOutlet UISwitch *enableIMESwitch;
 @end
 
 @implementation BKKeyboardViewController
@@ -87,7 +88,7 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 3;
+  return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -98,6 +99,8 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
     case 1:
       return 4;
     case 2:
+      return 1;
+    case 3:
       return 1;
   }
   return 0;
@@ -113,6 +116,8 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
       return @"SPECIAL KEYS";
     case 2:
       return @"BLINK SHORTCUTS";
+    case 3:
+      return @"IME MODE";
   }
   return nil;
 }
@@ -134,7 +139,11 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
     cell.textLabel.text = (NSString*)BKKeyboardFuncShortcutTriggers;
     cell.detailTextLabel.text = [self detailForKeyboardFunc:BKKeyboardFuncShortcutTriggers];
     
-  } else {
+  } else if(indexPath.section == 3){
+    cell = [tableView dequeueReusableCellWithIdentifier:@"enableIMECell" forIndexPath:indexPath];
+    [_enableIMESwitch setOn:[BKUserConfigurationManager userSettingsValueForKey:BKUserConfigIMEMode]];
+  }
+  else {
     switch (indexPath.row) {
       case 0:
         cell = [tableView dequeueReusableCellWithIdentifier:@"capsAsEscCell" forIndexPath:indexPath];
@@ -213,6 +222,12 @@ NSString *const BKKeyboardFuncTriggerChanged = @"BKKeyboardFuncTriggerChanged";
   [[NSNotificationCenter defaultCenter]
    postNotificationName:BKKeyboardShiftAsEscChanged
    object:self];
+}
+
+- (IBAction)enableIMEModeChanged:(UISwitch *)sender
+{
+  BOOL what = [sender isOn];
+  [BKUserConfigurationManager setUserSettingsValue:what forKey:BKUserConfigIMEMode];
 }
 
 #pragma mark - Navigation

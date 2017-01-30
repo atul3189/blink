@@ -35,6 +35,7 @@
 extern NSString *const BKUserConfigiCloud;
 extern NSString *const BKUserConfigiCloudKeys;
 extern NSString *const BKUserConfigAutoLock;
+extern NSString *const BKUserConfigIMEMode;
 
 @interface BKUserConfigurationManager : NSObject
 
