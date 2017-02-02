@@ -446,14 +446,17 @@ NSString *const TermViewAutoRepeateSeq = @"autoRepeatSeq:";
     } 
   } else if ([operation isEqualToString:@"fontSizeChanged"]) {
     if ([self.delegate respondsToSelector:@selector(fontSizeChanged:)]) {
-      [self.delegate fontSizeChanged:data[@"size"]];
+      NSNumber *fontSize = (NSNumber*) data[@"size"];
+      [self.delegate fontSizeChanged:fontSize];
+      self.textView.font = [UIFont systemFontOfSize:fontSize.floatValue];
+      [_webView evaluateJavaScript:@"currentCursorPosition();" completionHandler:nil];  
     }
   } else if ([operation isEqualToString:@"copy"]) {
     [[UIPasteboard generalPasteboard] setString:data[@"content"]];
   } else if ([operation isEqualToString:@"currentPosition"]) {
     float currentXPos = [[data objectForKey:@"currentXPos"]floatValue];
     float currentYPos = [[data objectForKey:@"currentYPos"]floatValue];
-    self.textView.frame = CGRectMake(currentXPos-5, currentYPos, self.textView.frame.size.width, self.textView.frame.size.height);
+    self.textView.frame = CGRectMake(currentXPos-5, currentYPos, self.textView.frame.size.width, self.textView.font.pointSize+5);
   }
 }
 
