@@ -30,10 +30,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #import "BKSmartKeysConfigViewController.h"
+#import "BKReArrangeSmartKeysViewController.h"
 #import "BKUserConfigurationManager.h"
+#import "BKSmartKeysConfig.h"
+
 @interface BKSmartKeysConfigViewController ()
 
 @property (nonatomic, weak) IBOutlet UISwitch *showWithExternalKeyboard;
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
 @end
 
@@ -54,4 +58,51 @@
   UISwitch *toggleSwitch = (UISwitch *)sender;
   [BKUserConfigurationManager setUserSettingsValue:toggleSwitch.isOn forKey:BKUserConfigShowSmartKeysWithXKeyBoard];
 }
+
+# pragma mark - UITableView Delegate Methods
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+  return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+  if(section == 0){
+    return 1;
+  } else {
+    return [BKSmartKeysConfig count]+1;
+  }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if(indexPath.section == 0){
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"smartKeysSwitchCell" forIndexPath:indexPath];
+    UISwitch *showKeyboardSwitch = [cell.contentView viewWithTag:6008];
+    [showKeyboardSwitch setOn:[BKUserConfigurationManager userSettingsValueForKey:BKUserConfigShowSmartKeysWithXKeyBoard]];
+    return cell;
+  } else {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"smartKeysConfigCell" forIndexPath:indexPath];
+    if(indexPath.row < [BKSmartKeysConfig count]){
+      cell.textLabel.text = [[[BKSmartKeysConfig all]objectAtIndex:indexPath.row]configName];
+    } else {
+      cell.textLabel.text = @"Add a new configuration";
+    }
+    return cell;
+  }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+  if(indexPath.section == 1){
+    self.selectedIndexPath = indexPath;
+  }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+  if([segue.identifier isEqualToString:@"editSmartKeysConfig"]){
+    UITableViewCell *cell = (UITableViewCell*)sender;
+    BKSmartKeysConfig *selectedConfig = [[BKSmartKeysConfig all]objectAtIndex:self.selectedIndexPath.row];
+    BKReArrangeSmartKeysViewController *rearrangeViewController = (BKReArrangeSmartKeysViewController*)segue.destinationViewController;
+    rearrangeViewController.config = selectedConfig;    
+  }
+}
+
 @end

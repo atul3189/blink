@@ -30,7 +30,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #import "SmartKeysController.h"
-
+#import "BKSmartKeysConfig.h"
 
 NSString *const SpecialCursorKeyHome = @"SpecialCursorKeyHome";
 NSString *const SpecialCursorKeyEnd = @"SpecialCursorKeyEnd";
@@ -59,36 +59,7 @@ static NSArray *CursorKeys = nil;
 + (void)initialize
 {
   // Make an object. Do not even there to use dicts
-  HelperKeys = @[
-    [[SmartKey alloc] initWithName:KbdTabKey
-                            symbol:@"\t"],
-    [[SmartKey alloc] initWithName:@"-"
-                            symbol:@"-"],
-    [[SmartKey alloc] initWithName:@"_"
-                            symbol:@"_"],
-    [[SmartKey alloc] initWithName:@"~"
-                            symbol:@"~"],
-    [[SmartKey alloc] initWithName:@"@"
-                            symbol:@"@"],
-    [[SmartKey alloc] initWithName:@"*"
-                            symbol:@"*"],
-    [[SmartKey alloc] initWithName:@"|"
-                            symbol:@"|"],
-    [[SmartKey alloc] initWithName:@"/"
-                            symbol:@"/"],
-    [[SmartKey alloc] initWithName:@"\\"
-                            symbol:@"\\"],
-    [[SmartKey alloc] initWithName:@"^"
-                            symbol:@"^"],
-    [[SmartKey alloc] initWithName:@"["
-                            symbol:@"["],
-    [[SmartKey alloc] initWithName:@"]"
-                            symbol:@"]"],
-    [[SmartKey alloc] initWithName:@"{"
-                            symbol:@"{"],
-    [[SmartKey alloc] initWithName:@"}"
-                            symbol:@"}"]
-  ];
+  HelperKeys = [[[BKSmartKeysConfig all]objectAtIndex:0]keyList];
 
   ArrowKeys = @[
     [[SmartKey alloc] initWithName:KbdUpArrowKey
